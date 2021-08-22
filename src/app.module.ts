@@ -12,7 +12,8 @@ import { GraphQLModule } from '@nestjs/graphql';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(),
     GraphQLModule.forRoot({
-      typePaths: ['./**/*.graphql'],
+      installSubscriptionHandlers: true,
+      autoSchemaFile: 'schema.gql',
     }),
     ArtistModule,
     AssetModule,

@@ -11,9 +11,6 @@ export class ArtistService {
     ) { }
 
     findOne(id: string): Promise<ArtistEntity> {
-        return this.artistsRepository.findOne(id).then(res => {
-            console.log(res);
-            return res;
-        });
+        return this.artistsRepository.findOne(id);
     }
 }
