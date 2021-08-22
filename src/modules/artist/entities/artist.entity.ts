@@ -2,7 +2,7 @@ import { Asset, IImageMeta } from 'src/modules/asset/entities/asset.entity';
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({ name: 'artists' })
-export class Artist {
+export class ArtistEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
