@@ -23,7 +23,20 @@ type Artist {
   avatarImage: Asset!
 }
 
+type ArtistEdge {
+  itemCount: Float!
+  totalItems: Float!
+  itemsPerPage: Float!
+  totalPages: Float!
+  currentPage: Float!
+}
+
+type PaginatedArtist {
+  items: [Artist!]!
+  meta: ArtistEdge!
+}
+
 type Query {
-  getArtists(offset: Int = 0, limit: Int = 10): [Artist!]!
+  getArtists(page: Int = 0, limit: Int = 10): PaginatedArtist!
   getArtistById(id: String!): Artist!
 }
