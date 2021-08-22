@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ArtistService } from './services/artist/artist.service';
-import { ArtistController } from './controllers/artist/artist.controller';
+import { ArtistService } from './artist.service';
+import { ArtistController } from './artist.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ArtistEntity } from './entities/artist.entity';
-import { ArtistResolver } from './resolvers/artist.resolver';
+import { ArtistResolver } from './artist.resolver';
 import { AssetModule } from '../asset/asset.module';
+import { Artist } from './artist.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ArtistEntity]),
+        TypeOrmModule.forFeature([Artist]),
         AssetModule,
     ],
     providers: [ArtistService, ArtistResolver],
