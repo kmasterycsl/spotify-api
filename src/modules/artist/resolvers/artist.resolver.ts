@@ -1,25 +1,25 @@
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { Artist, Asset } from 'src/graphql';
 import { AssetService } from 'src/modules/asset/asset.service';
 import { AssetEntity, IImageMeta } from 'src/modules/asset/entities/asset.entity';
 import { GetArtistsArgs } from '../args/GetArtists.arg';
 import { ArtistEntity } from '../entities/artist.entity';
+import { Artist } from '../models/artist.model';
 import { ArtistService } from '../services/artist/artist.service';
 
 
-@Resolver('Artist')
+@Resolver(of => Artist)
 export class ArtistResolver {
     constructor(
         private readonly artistsService: ArtistService,
         private readonly assetService: AssetService,
     ) { }
 
-    @Query('artists')
+    @Query(returns => [Artist])
     async getArtists(@Args() args: GetArtistsArgs) {
         return [];
     }
 
-    @Query('artist')
+    @Query(returns => Artist)
     async getArtistById(@Args('id') id: string): Promise<ArtistEntity> {
         return this.artistsService.findOne(id);
     }

@@ -1,0 +1,29 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ImageMeta {
+  source: String!
+  width: Float!
+  height: Float!
+}
+
+type Asset {
+  id: ID!
+  type: String!
+  meta: ImageMeta!
+}
+
+type Artist {
+  id: ID!
+  name: String!
+  biography: String!
+  isVerified: Boolean!
+  coverImage: Asset!
+  avatarImage: Asset!
+}
+
+type Query {
+  getArtists(offset: Int = 0, limit: Int = 10): [Artist!]!
+  getArtistById(id: String!): Artist!
+}
