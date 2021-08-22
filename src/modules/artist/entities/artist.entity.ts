@@ -1,4 +1,4 @@
-import { Asset, IImageMeta } from 'src/modules/asset/entities/asset.entity';
+import { AssetEntity, IImageMeta } from 'src/modules/asset/entities/asset.entity';
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({ name: 'artists' })
@@ -15,13 +15,13 @@ export class ArtistEntity {
   @Column({ default: true })
   isVerified: boolean;
 
-  @OneToOne(() => Asset)
+  @OneToOne(() => AssetEntity, {eager: true})
   @JoinColumn()
-  coverImage: Asset<IImageMeta>;
+  coverImage: AssetEntity<IImageMeta>;
 
-  @OneToOne(() => Asset)
+  @OneToOne(() => AssetEntity, {eager: true})
   @JoinColumn()
-  avatarImage: Asset<IImageMeta>;
+  avatarImage: AssetEntity<IImageMeta>;
 
   @CreateDateColumn()
   createdAt: Date;

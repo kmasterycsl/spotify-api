@@ -1,9 +1,9 @@
 import Faker from 'faker'
-import { Asset, AssetType, IImageMeta } from 'src/modules/asset/entities/asset.entity'
+import { AssetEntity, AssetType, IImageMeta } from 'src/modules/asset/entities/asset.entity'
 import { define } from 'typeorm-seeding'
 
-define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-avatar' | 'artist-cover' }) => {
-    const asset = new Asset<IImageMeta>();
+define(AssetEntity, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-avatar' | 'artist-cover' }) => {
+    const asset = new AssetEntity<IImageMeta>();
     asset.type = context.type;
 
     switch (context.kind) {

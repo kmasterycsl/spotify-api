@@ -1,0 +1,20 @@
+  
+type Query {
+  asset(id: ID!): Asset
+}
+
+enum AssetType {
+  IMAGE
+}
+
+type Asset {
+  id: Int!
+  type: AssetType!
+  meta: AssetMeta!
+}
+
+type AssetMeta {
+  source: String
+  width: Int
+  height: Int
+}

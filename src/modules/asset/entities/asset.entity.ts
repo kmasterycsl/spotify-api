@@ -11,7 +11,7 @@ export interface IImageMeta {
 }
 
 @Entity({ name: 'assets' })
-export class Asset<T extends IImageMeta> {
+export class AssetEntity<T extends IImageMeta> {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
