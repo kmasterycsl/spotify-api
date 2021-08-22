@@ -28,6 +28,11 @@ type TrackEdge {
   currentPage: Float!
 }
 
+type PaginatedTrack {
+  items: [Track!]!
+  meta: TrackEdge!
+}
+
 type Artist {
   id: ID!
   name: String!
@@ -35,6 +40,7 @@ type Artist {
   isVerified: Boolean!
   coverImage: Asset!
   avatarImage: Asset!
+  tracks(page: Int = 0, limit: Int = 10): PaginatedTrack!
 }
 
 type ArtistEdge {
