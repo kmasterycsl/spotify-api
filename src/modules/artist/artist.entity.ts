@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Asset, IImageMeta } from 'src/modules/asset/asset.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { Paginated } from 'src/shared/Paginated';
-import { Track } from 'src/track/track.entity';
+import { PaginatedTrack, Track } from 'src/track/track.entity';
 import { ArtistToTrack } from 'src/track/artist-to-track.entity';
 
 @Entity({ name: 'artists' })
@@ -35,7 +35,10 @@ export class Artist {
   avatarImage: Asset<IImageMeta>;
 
   @OneToMany(() => ArtistToTrack, artistToTrack => artistToTrack.artist)
-  public artistToTracks!: ArtistToTrack[];
+  artistToTracks!: ArtistToTrack[];
+
+  @Field(type => PaginatedTrack)
+  tracks: PaginatedTrack;
 }
 
 @ObjectType()

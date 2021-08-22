@@ -4,12 +4,17 @@ import { Asset, IImageMeta } from 'src/modules/asset/asset.entity';
 import { GetArtistsArgs } from './args/GetArtists.arg';
 import { Artist, PaginatedArtist } from './artist.entity';
 import { ArtistService } from './artist.service';
+import { Track } from 'src/track/track.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { TrackService } from 'src/track/track.service';
+import { GetTracksArgs } from 'src/track/args/GetTracks.args';
 
 @Resolver(of => Artist)
 export class ArtistResolver {
     constructor(
         private readonly artistsService: ArtistService,
         private readonly assetService: AssetService,
+        private readonly trackService: TrackService,
     ) { }
 
     @Query(returns => PaginatedArtist)
@@ -20,6 +25,11 @@ export class ArtistResolver {
     @Query(returns => Artist)
     async getArtistById(@Args('id') id: string): Promise<Artist> {
         return this.artistsService.findOneById(id);
+    }
+
+    @ResolveField()
+    async tracks(@Parent() artist: Artist, @Args() args: GetTracksArgs): Promise<Pagination<Track>> {
+        return this.trackService.findByArtistId(artist.id, args);
     }
 
     @ResolveField()
