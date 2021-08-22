@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 export enum AssetType {
   IMAGE = 'IMAGE',
+  SOUND = 'SOUND',
 }
 
 export interface IImageMeta {
@@ -11,9 +12,14 @@ export interface IImageMeta {
   height: number;
 }
 
+export interface ISoundMeta {
+  source: string;
+  length: number;
+}
+
 @ObjectType()
 @Entity({ name: 'assets' })
-export class Asset<T extends IImageMeta> {
+export class Asset<T extends IImageMeta | ISoundMeta> {
   @PrimaryGeneratedColumn("uuid")
   @Field(type => ID)
   id: string;
@@ -43,4 +49,13 @@ export class ImageMeta {
   
   @Field()
   height: number;
+}
+
+@ObjectType()
+export class SoundMeta {
+  @Field()
+  source: string;
+  
+  @Field()
+  length: number;
 }
