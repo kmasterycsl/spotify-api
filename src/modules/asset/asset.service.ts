@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AssetEntity, IImageMeta } from './entities/asset.entity';
+import { Asset, IImageMeta } from './asset.entity';
 
 @Injectable()
 export class AssetService {
     constructor(
-        @InjectRepository(AssetEntity)
-        private assetsRepository: Repository<AssetEntity<any>>,
+        @InjectRepository(Asset)
+        private assetsRepository: Repository<Asset<any>>,
     ) { }
 
-    findOne<T extends IImageMeta>(id: string): Promise<AssetEntity<T>> {
+    findOneById<T extends IImageMeta>(id: string): Promise<Asset<T>> {
         return this.assetsRepository.findOne(id);
     }
 }

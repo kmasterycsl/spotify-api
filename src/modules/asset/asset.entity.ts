@@ -1,3 +1,4 @@
+import { ObjectType, ID, Field } from '@nestjs/graphql';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export enum AssetType {
@@ -10,15 +11,19 @@ export interface IImageMeta {
   height: number;
 }
 
+@ObjectType()
 @Entity({ name: 'assets' })
-export class AssetEntity<T extends IImageMeta> {
+export class Asset<T extends IImageMeta> {
   @PrimaryGeneratedColumn("uuid")
+  @Field(type => ID)
   id: string;
 
   @Column({ type: 'enum', enum: AssetType })
+  @Field()
   type: AssetType;
 
   @Column({ type: 'simple-json' })
+  @Field(type => ImageMeta)
   meta: T;
 
   @CreateDateColumn()
@@ -26,4 +31,16 @@ export class AssetEntity<T extends IImageMeta> {
 
   @UpdateDateColumn()
   updatedAt: Date;
+}
+
+@ObjectType()
+export class ImageMeta {
+  @Field()
+  source: string;
+  
+  @Field()
+  width: number;
+  
+  @Field()
+  height: number;
 }

@@ -2,16 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ImageMeta {
-  source: String!
-  width: Float!
-  height: Float!
-}
-
 type Asset {
   id: ID!
   type: String!
   meta: ImageMeta!
+}
+
+type ImageMeta {
+  source: String!
+  width: Float!
+  height: Float!
 }
 
 type Artist {
