@@ -5,13 +5,20 @@
 type Asset {
   id: ID!
   type: String!
-  meta: ImageMeta!
+  meta: AssetMetaUnion!
 }
+
+union AssetMetaUnion = ImageMeta | SoundMeta
 
 type ImageMeta {
   source: String!
   width: Float!
   height: Float!
+}
+
+type SoundMeta {
+  source: String!
+  length: Float!
 }
 
 type Track {
