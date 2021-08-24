@@ -24,12 +24,20 @@ export class Artist {
   @Field()
   isVerified: boolean;
 
-  @OneToOne(() => Asset, { eager: true })
+  @Column()
+  @Field()
+  coverImageId: string;
+
+  @OneToOne(() => Asset)
   @JoinColumn()
   @Field(type => Asset)
   coverImage: Asset<IImageMeta>;
 
-  @OneToOne(() => Asset, { eager: true })
+  @Column()
+  @Field()
+  avatarImageId: string;
+
+  @OneToOne(() => Asset)
   @JoinColumn()
   @Field(type => Asset)
   avatarImage: Asset<IImageMeta>;

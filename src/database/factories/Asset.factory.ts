@@ -18,7 +18,7 @@ define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-av
             asset.meta = {
                 height: 360,
                 width: 850,
-                source: `https://picsum.photos/${360}/${850}?random=${Math.random()}&grayscale&blur=2`,
+                source: `https://picsum.photos/${850}/${360}?random=${Math.random()}&grayscale&blur=2`,
             }
             break;
         case 'sound':
