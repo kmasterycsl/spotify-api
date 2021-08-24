@@ -45,7 +45,9 @@ type Artist {
   name: String!
   biography: String!
   isVerified: Boolean!
+  coverImageId: String!
   coverImage: Asset!
+  avatarImageId: String!
   avatarImage: Asset!
   tracks(page: Int = 0, limit: Int = 10): PaginatedTrack!
 }
@@ -64,6 +66,6 @@ type PaginatedArtist {
 }
 
 type Query {
-  getArtists(page: Int = 0, limit: Int = 10): PaginatedArtist!
-  getArtistById(id: String!): Artist!
+  artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
+  artist(id: String!): Artist!
 }

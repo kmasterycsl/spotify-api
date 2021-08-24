@@ -17,12 +17,12 @@ export class ArtistResolver {
         private readonly trackService: TrackService,
     ) { }
 
-    @Query(returns => PaginatedArtist)
+    @Query(returns => PaginatedArtist, { name: 'artists' })
     async getArtists(@Args() args: GetArtistsArgs) {
         return this.artistsService.find(args);
     }
 
-    @Query(returns => Artist)
+    @Query(returns => Artist, { name: 'artist' })
     async getArtistById(@Args('id') id: string): Promise<Artist> {
         return this.artistsService.findOneById(id);
     }
