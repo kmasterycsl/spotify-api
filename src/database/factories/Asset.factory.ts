@@ -1,6 +1,9 @@
 import Faker from 'faker'
 import { Asset, AssetType, IImageMeta, ISoundMeta } from 'src/modules/asset/asset.entity'
 import { define } from 'typeorm-seeding'
+import { random } from 'lodash';
+
+const TOTAL_SONGS = 20;
 
 define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-avatar' | 'artist-cover' | 'sound' }) => {
     const asset = new Asset<IImageMeta | ISoundMeta>();
@@ -24,7 +27,7 @@ define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-av
         case 'sound':
             asset.meta = {
                 length: 240000,
-                source: `https://cxiii.dcdaadaafd.xyz/?file=M3R4SUNiN3JsOHJ6WWQ2a3NQS1Y5ZGlxVlZIOCtyZ1FrTkFjeGdRUkFMOEg3YTRqMlBlbGFQMUFaWk1IeU1HUkJOQWZ2aEhLZU5lQ1BrU3NwcEVsQ1Z5VDlONDRxaXZkOHNVU1hNUjRUbGoxaTdYbGtEaDZqRGpsZjh6RlNQMEVTMjUwdGxSMjBTUFdudGZacVVhOTRWdXA0aCtsZFhZSHN5OE9jL2JmL05RRm5uM0RhdkhseDRJRXVSbWM3cFZhMzgrSnV6N2l5N2NCcThsN1lVdG1lcGRVMTZYd3ovblBta2dMZzVFWnlWbTJxTjIwQTVNOEJKcVpJQlpFT2hFVC9yYmhlVlVUMzNaWS9YU3UvNzBnK21rRWRQMGt2akR0cjZDOU5tZk9PTkgvVlpUWmZycmw4SkNnc2I5eXFSelNzTEdW`,
+                source: `https://open-spotify-dev.s3.ap-southeast-1.amazonaws.com/tracks/${random(1, TOTAL_SONGS)}.mp3`,
             }
             break;
         default:
