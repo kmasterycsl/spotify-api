@@ -7,8 +7,8 @@ import { ArtistToTrack } from 'src/track/artist-to-track.entity';
 
 export default class CreateArtist implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
-        const artists = await factory(Artist)().createMany(20);
-        const tracks = await factory(Track)().createMany(20);
+        const artists = await factory(Artist)().createMany(10);
+        const tracks = await factory(Track)().createMany(500);
         const artistToTracks$ = [];
         for (const track of tracks) {
             const numArtists = _.random(1, 3);
