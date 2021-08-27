@@ -4,10 +4,10 @@ import { Asset, IImageMeta } from 'src/modules/asset/asset.entity';
 import { GetArtistsArgs } from './args/GetArtists.arg';
 import { Artist, PaginatedArtist } from './artist.entity';
 import { ArtistService } from './artist.service';
-import { Track } from 'src/track/track.entity';
+import { Track } from 'src/modules/track/track.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { TrackService } from 'src/track/track.service';
-import { GetTracksArgs } from 'src/track/args/GetTracks.args';
+import { TrackService } from 'src/modules/track/track.service';
+import { GetTracksArgs } from 'src/modules/track/args/GetTracks.args';
 
 @Resolver(of => Artist)
 export class ArtistResolver {
