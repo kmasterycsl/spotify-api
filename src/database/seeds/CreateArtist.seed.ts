@@ -1,9 +1,9 @@
 import { Artist } from 'src/modules/artist/artist.entity';
-import { Track } from 'src/track/track.entity';
+import { Track } from 'src/modules/track/track.entity';
 import { Connection } from 'typeorm'
 import { Factory, Seeder } from 'typeorm-seeding'
 import * as _ from 'lodash';
-import { ArtistToTrack } from 'src/track/artist-to-track.entity';
+import { ArtistToTrack } from 'src/modules/track/artist-to-track.entity';
 
 export default class CreateArtist implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {

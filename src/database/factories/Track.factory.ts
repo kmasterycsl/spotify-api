@@ -1,7 +1,7 @@
 import Faker from 'faker'
 import { Artist } from 'src/modules/artist/artist.entity';
 import { Asset, AssetType } from 'src/modules/asset/asset.entity'
-import { Track } from 'src/track/track.entity';
+import { Track } from 'src/modules/track/track.entity';
 import { define, factory } from 'typeorm-seeding';
 
 define(Track, (faker: typeof Faker, context: { artistIds: string[] }) => {

@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistResolver } from './artist.resolver';
 import { AssetModule } from '../asset/asset.module';
 import { Artist } from './artist.entity';
-import { TrackModule } from 'src/track/track.module';
+import { TrackModule } from 'src/modules/track/track.module';
 
 @Module({
     imports: [
