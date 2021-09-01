@@ -1,6 +1,6 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './strategies/jwt.guard';
+import { LoginSocialRequest } from './requests/login-fb.request';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -11,8 +11,8 @@ export class AuthController {
     private readonly authService: AuthService,
   ) { }
 
-  @Get('login-social/:providerId')
-  async loginBySocialProvider(): Promise<string> {
+  @Post('login-social')
+  async loginBySocialProvider(@Body() body: LoginSocialRequest): Promise<string> {
     const user = new User();
     user.id = '1';
     user.name = 'khanhpro';
