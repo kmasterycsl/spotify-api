@@ -27,8 +27,8 @@ export class UserService {
     }
 
     async createUserWithSocialInfo(name: string, providerId: string, providerUserId: string): Promise<User> {
-        const user = await this.usersRepository.create({ name });
-        await this.userToSocialProviderRepository.create({
+        const user = await this.usersRepository.save({ name });
+        await this.userToSocialProviderRepository.save({
             userId: user.id,
             socialProviderId: providerId,
             socialProviderUserId: providerUserId,

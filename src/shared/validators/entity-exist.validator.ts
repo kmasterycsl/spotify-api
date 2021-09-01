@@ -17,6 +17,6 @@ export class EntityExistValidator implements ValidatorConstraintInterface {
     }
 
     defaultMessage(args: ValidationArguments) {
-        return `Can't find  ${args.constraints[0].name || 'unknown entity'} with id ${args.value}`;
+        return `Can't find ${args.constraints[0].name || 'unknown entity'} with id ${args.value}`;
     }
 }

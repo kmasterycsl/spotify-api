@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginSocialRequest } from './requests/login-fb.request';
 import { SUPPORTED_SOCIAL_PROVIDERS } from './social-provider.entity';
@@ -22,6 +22,8 @@ export class AuthService {
       existedUser = await this.usersService.createUserWithSocialInfo(socialInfo.name, params.providerId, socialInfo.uid);
     }
 
+    console.log({existedUser})
+
     return this.createTokenForUser(existedUser).access_token;
   }
 
@@ -29,16 +31,27 @@ export class AuthService {
     switch (params.providerId) {
       case SUPPORTED_SOCIAL_PROVIDERS.GOOGLE:
         const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET);
-        const result = await googleClient.verifyIdToken({
-          idToken: params.idToken,
-          audience: process.env.GOOGLE_CLIENT_ID
-        });
+        try {
+          const result = await googleClient.verifyIdToken({
+            idToken: params.idToken,
+            audience: process.env.GOOGLE_CLIENT_ID
+          });
 
-        const payload = result.getPayload();
+          const payload = result.getPayload();
 
-        return {
-          name: payload.name,
-          uid: payload.sub,
+          return {
+            name: payload.name,
+            uid: payload.sub,
+          }
+        } catch (e) {
+          console.error(e);
+          throw new BadRequestException({
+            statusCode: 400,
+            message: [
+              "idToken is not valid",
+            ],
+            error: "Bad Request"
+          });
         }
       case SUPPORTED_SOCIAL_PROVIDERS.FACEBOOK:
         return {
