@@ -14,7 +14,7 @@ export class UserService {
     ) { }
 
     findOneById(id: string): Promise<User> {
-        return this.usersRepository.findOne(id);
+        return this.usersRepository.findOneOrFail(id);
     };
 
     async findUserBySocialInfo(providerId: string, providerUserId: string): Promise<User | undefined> {
