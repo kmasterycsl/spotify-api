@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { UserToSocialProvider } from './user-to-social-provider.entity';
 import { SocialProvider } from './social-provider.entity';
+import { UserResolver } from './user.resolver';
 
 @Module({
     controllers: [UserController, AuthController],
@@ -23,7 +24,7 @@ import { SocialProvider } from './social-provider.entity';
             signOptions: { expiresIn: '60s' },
         }),
     ],
-    providers: [UserService, AuthService, JwtStrategy],
+    providers: [UserService, AuthService, JwtStrategy, UserResolver],
     exports: [UserService, AuthService]
 })
 export class UserModule { }

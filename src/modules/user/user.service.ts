@@ -13,6 +13,10 @@ export class UserService {
         private userToSocialProviderRepository: Repository<UserToSocialProvider>,
     ) { }
 
+    findOneById(id: string): Promise<User> {
+        return this.usersRepository.findOne(id);
+    };
+
     async findUserBySocialInfo(providerId: string, providerUserId: string): Promise<User | undefined> {
         const userToSocialProvider = await this.userToSocialProviderRepository.findOne({
             socialProviderId: providerId,

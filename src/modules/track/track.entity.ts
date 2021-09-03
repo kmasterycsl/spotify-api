@@ -15,7 +15,6 @@ export class Track {
   @Field()
   name: string;
 
-
   @OneToOne(() => Asset, { eager: true })
   @JoinColumn()
   @Field(type => Asset)
