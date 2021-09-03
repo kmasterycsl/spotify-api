@@ -85,6 +85,7 @@ type UserWithAccessToken {
 type Query {
   artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
   artist(id: String!): Artist!
+  whoAmI: User!
   user(id: String!): User!
 }
 

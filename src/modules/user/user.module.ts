@@ -21,7 +21,7 @@ import { UserResolver } from './user.resolver';
         PassportModule,
         JwtModule.register({
             secret: process.env.APP_SECRET,
-            signOptions: { expiresIn: '60s' },
+            signOptions: { expiresIn: '30d' },
         }),
     ],
     providers: [UserService, AuthService, JwtStrategy, UserResolver],
