@@ -1,8 +1,6 @@
-import { Body } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { LoginByGoogleArgs } from './args/LoginByGoogle.arg';
 import { AuthService } from './auth.service';
-import { LoginSocialRequest } from './requests/login-fb.request';
 import { User, UserWithAccessToken } from './user.entity';
 import { UserService } from './user.service';
 
