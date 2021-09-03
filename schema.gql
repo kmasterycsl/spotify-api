@@ -77,8 +77,17 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type UserWithAccessToken {
+  user: User!
+  accessToken: String!
+}
+
 type Query {
   artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
   artist(id: String!): Artist!
   user(id: String!): User!
+}
+
+type Mutation {
+  loginBySocialProvider(idToken: String!, providerId: String!): UserWithAccessToken!
 }

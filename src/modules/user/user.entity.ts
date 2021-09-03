@@ -24,3 +24,13 @@ export class User {
   @OneToMany(() => UserToSocialProvider, userToSocialProvider => userToSocialProvider.user)
   public userToSocialProviders!: UserToSocialProvider[];
 }
+
+
+@ObjectType()
+export class UserWithAccessToken {
+  @Field(type => User)
+  user: User;
+
+  @Field()
+  accessToken: string;
+}
