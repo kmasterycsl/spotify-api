@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginSocialRequest } from './requests/login-fb.request';
 import { SUPPORTED_SOCIAL_PROVIDERS } from './social-provider.entity';
-import { User } from './user.entity';
+import { User, UserWithAccessToken } from './user.entity';
 import { UserService } from './user.service';
 import { OAuth2Client } from 'google-auth-library';
+import { LoginByGoogleArgs } from './args/LoginByGoogle.arg';
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,7 +13,7 @@ export class AuthService {
   ) { }
 
 
-  async loginBySocialProvider(params: LoginSocialRequest): Promise<string> {
+  async loginBySocialProvider(params: LoginByGoogleArgs): Promise<UserWithAccessToken> {
     const socialInfo = await this.verifyIdToken(params);
 
     let existedUser = await this.usersService.findUserBySocialInfo(params.providerId, socialInfo.uid);
@@ -22,12 +22,13 @@ export class AuthService {
       existedUser = await this.usersService.createUserWithSocialInfo(socialInfo.name, params.providerId, socialInfo.uid);
     }
 
-    console.log({existedUser})
-
-    return this.createTokenForUser(existedUser).access_token;
+    return {
+      user: existedUser,
+      accessToken: this.createTokenForUser(existedUser).access_token,
+    };
   }
 
-  private async verifyIdToken(params: LoginSocialRequest) {
+  private async verifyIdToken(params: LoginByGoogleArgs) {
     switch (params.providerId) {
       case SUPPORTED_SOCIAL_PROVIDERS.GOOGLE:
         const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET);
