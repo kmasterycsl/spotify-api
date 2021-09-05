@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ArtistService } from './artist.service';
-import { ArtistController } from './artist.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistResolver } from './artist.resolver';
 import { AssetModule } from '../asset/asset.module';
@@ -14,7 +13,6 @@ import { TrackModule } from 'src/modules/track/track.module';
         TrackModule,
     ],
     providers: [ArtistService, ArtistResolver],
-    controllers: [ArtistController],
     exports: [ArtistService],
 })
 export class ArtistModule { }
