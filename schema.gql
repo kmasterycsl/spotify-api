@@ -21,9 +21,21 @@ type SoundMeta {
   length: Float!
 }
 
+type Album {
+  id: ID!
+  name: String!
+  description: String!
+  type: String!
+  coverImageId: String!
+  coverImage: Asset!
+  artistId: String!
+  tracks: [Track!]!
+}
+
 type Track {
   id: ID!
   name: String!
+  albumId: String!
   sound: Asset!
 }
 
@@ -87,6 +99,7 @@ type Query {
   artist(id: String!): Artist!
   whoAmI: User!
   user(id: String!): User!
+  album(id: String!): Album!
 }
 
 type Mutation {
