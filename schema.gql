@@ -37,6 +37,7 @@ type Track {
   name: String!
   albumId: String!
   sound: Asset!
+  album: Album!
 }
 
 type TrackEdge {
@@ -97,9 +98,10 @@ type UserWithAccessToken {
 type Query {
   artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
   artist(id: String!): Artist!
+  track(id: String!): Track!
+  album(id: String!): Album!
   whoAmI: User!
   user(id: String!): User!
-  album(id: String!): Album!
 }
 
 type Mutation {

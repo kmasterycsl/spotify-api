@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AssetModule } from '../asset/asset.module';
@@ -10,7 +10,7 @@ import { AlbumResolver } from './album.resolver';
     imports: [
         TypeOrmModule.forFeature([Album]),
         AssetModule,
-        TrackModule,
+        forwardRef(() => TrackModule),
     ],
     providers: [AlbumService, AlbumResolver],
     exports: [AlbumService],
