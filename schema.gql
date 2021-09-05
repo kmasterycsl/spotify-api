@@ -12,6 +12,7 @@ union AssetMetaUnion = ImageMeta | SoundMeta
 
 type ImageMeta {
   source: String!
+  dominantColor: String!
   width: Float!
   height: Float!
 }
