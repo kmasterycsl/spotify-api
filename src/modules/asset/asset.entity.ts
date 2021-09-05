@@ -8,6 +8,7 @@ export enum AssetType {
 
 export interface IImageMeta {
   source: string;
+  dominantColor?: string;
   width: number;
   height: number;
 }
@@ -60,6 +61,9 @@ export class Asset<T extends AssetMetaType> {
 export class ImageMeta {
   @Field()
   source: string;
+
+  @Field()
+  dominantColor: string;
 
   @Field()
   width: number;
