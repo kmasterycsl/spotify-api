@@ -15,6 +15,10 @@ export class TrackService {
         private artistToTrackRepository: Repository<ArtistToTrack>,
     ) { }
 
+    findOneById(id: string): Promise<Track> {
+        return this.tracksRepository.findOne(id);
+    }
+
     async findByArtistId(artistId: string, args: GetTracksArgs): Promise<Pagination<Track>> {
         const artistToTracks = await paginate(this.artistToTrackRepository, args, { where: { artistId } });
         const trackIds = artistToTracks.items.map(att => att.trackId);
