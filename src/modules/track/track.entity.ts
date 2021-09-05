@@ -4,6 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany
 import { Paginated } from 'src/shared/Paginated';
 import { ArtistToTrack } from '../artist/artist-to-track.entity';
 import { Album } from '../album/album.entity';
+import { Artist } from '../artist/artist.entity';
 
 @Entity({ name: 'tracks' })
 @ObjectType()
@@ -27,6 +28,9 @@ export class Track {
     @JoinColumn()
     @Field(type => Asset)
     sound: Asset<ISoundMeta>;
+    
+    @Field(type => [Artist])
+    artists: Artist[];
 
     @OneToMany(() => ArtistToTrack, artistToTrack => artistToTrack.track)
     public artistToTracks!: ArtistToTrack[];

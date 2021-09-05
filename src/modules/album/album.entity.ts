@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Track } from 'src/modules/track/track.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Artist } from '../artist/artist.entity';
 import { Asset, IImageMeta } from '../asset/asset.entity';
 
@@ -44,7 +44,18 @@ export class Album {
     @ManyToOne(() => Artist, artist => artist)
     public artist!: Artist;
 
+    @Field((type) => [Artist])
+    allArtists: Artist[];
+
     @OneToMany(() => Track, track => track.album)
     @Field((type) => [Track])
     tracks: Track[];
+
+    @CreateDateColumn()
+    @Field()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    @Field()
+    updatedAt: Date;
 }

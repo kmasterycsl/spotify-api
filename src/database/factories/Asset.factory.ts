@@ -14,21 +14,21 @@ define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-av
             asset.meta = {
                 height: 128,
                 width: 128,
-                source: `https://picsum.photos/${128}/${128}?random=${Math.random()}`,
+                source: `https://picsum.photos/seed/${Math.random()}/${128}/${128}`,
             }
             break;
         case 'artist-cover':
             asset.meta = {
                 height: 360,
                 width: 850,
-                source: `https://picsum.photos/${850}/${360}?random=${Math.random()}`,
+                source: `https://picsum.photos/seed/${Math.random()}/${850}/${360}`,
             }
             break;
         case 'album-cover':
             asset.meta = {
                 height: 360,
                 width: 360,
-                source: `https://picsum.photos/${850}/${360}?random=${Math.random()}`,
+                source: `https://picsum.photos/seed/${Math.random()}/${850}/${360}`,
             }
             break;
         case 'sound':
