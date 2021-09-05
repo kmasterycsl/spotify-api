@@ -1,12 +1,13 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ArtistToTrack } from './artist-to-track.entity';
+import { ArtistModule } from '../artist/artist.module';
 import { Track } from './track.entity';
 import { TrackService } from './track.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Track, ArtistToTrack]),
+        forwardRef(() => ArtistModule),
+        TypeOrmModule.forFeature([Track]),
     ],
     providers: [TrackService],
     exports: [TrackService]

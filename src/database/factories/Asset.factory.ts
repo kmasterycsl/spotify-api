@@ -3,9 +3,9 @@ import { Asset, AssetType, IImageMeta, ISoundMeta } from 'src/modules/asset/asse
 import { define } from 'typeorm-seeding'
 import { random } from 'lodash';
 
-const TOTAL_SONGS = 20;
+const TOTAL_SONGS = 23;
 
-define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-avatar' | 'artist-cover' | 'sound' }) => {
+define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-avatar' | 'artist-cover' | 'album-cover' | 'sound' }) => {
     const asset = new Asset<IImageMeta | ISoundMeta>();
     asset.type = context.type;
 
@@ -21,6 +21,13 @@ define(Asset, (faker: typeof Faker, context: { type: AssetType, kind: 'artist-av
             asset.meta = {
                 height: 360,
                 width: 850,
+                source: `https://picsum.photos/${850}/${360}?random=${Math.random()}&grayscale&blur=2`,
+            }
+            break;
+        case 'album-cover':
+            asset.meta = {
+                height: 360,
+                width: 360,
                 source: `https://picsum.photos/${850}/${360}?random=${Math.random()}&grayscale&blur=2`,
             }
             break;

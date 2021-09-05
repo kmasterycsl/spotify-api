@@ -8,6 +8,7 @@ import { AssetModule } from './modules/asset/asset.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TrackModule } from './modules/track/track.module';
 import { UserModule } from './modules/user/user.module';
+import { AlbumModule } from './modules/album/album.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UserModule } from './modules/user/user.module';
     AssetModule,
     TrackModule,
     UserModule,
+    AlbumModule,
   ],
   controllers: [AppController],
   providers: [AppService],

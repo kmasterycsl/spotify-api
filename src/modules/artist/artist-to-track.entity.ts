@@ -3,7 +3,7 @@ import { Asset, IImageMeta, ISoundMeta } from 'src/modules/asset/asset.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { Paginated } from 'src/shared/Paginated';
 import { Artist } from 'src/modules/artist/artist.entity';
-import { Track } from './track.entity';
+import { Track } from '../track/track.entity';
 
 @Entity({ name: 'artistToTrack' })
 export class ArtistToTrack {
