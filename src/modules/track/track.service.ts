@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { GetTracksArgs } from './args/GetTracks.args';
 import { ArtistToTrack } from '../artist/artist-to-track.entity';
 import { Track } from './track.entity';
+import { Artist } from '../artist/artist.entity';
 
 @Injectable()
 export class TrackService {
@@ -29,4 +30,5 @@ export class TrackService {
     async findByAlbumId(albumId: string): Promise<Track[]> {
         return this.tracksRepository.find({ albumId });
     }
+
 }
