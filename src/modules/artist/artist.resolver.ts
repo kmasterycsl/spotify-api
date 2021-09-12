@@ -8,8 +8,6 @@ import { Track } from "src/modules/track/track.entity";
 import { Pagination } from "nestjs-typeorm-paginate";
 import { TrackService } from "src/modules/track/track.service";
 import { GetTracksArgs } from "src/modules/track/args/GetTracks.args";
-import { UseGuards } from "@nestjs/common";
-import { OptionalGqlAuthGuard } from "../user/strategies/optional-graphql.guard";
 
 @Resolver(of => Artist)
 export class ArtistResolver {
@@ -24,7 +22,6 @@ export class ArtistResolver {
         return this.artistsService.find(args);
     }
 
-    @UseGuards(OptionalGqlAuthGuard)
     @Query(returns => Artist, { name: "artist" })
     async getArtistById(@Args("id") id: string): Promise<Artist> {
         return this.artistsService.findOneById(id);

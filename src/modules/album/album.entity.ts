@@ -61,6 +61,9 @@ export class Album {
     @Field(type => [Track])
     tracks: Track[];
 
+    @Field(type => Boolean)
+    isLiked: boolean;
+
     @CreateDateColumn()
     @Field()
     createdAt: Date;

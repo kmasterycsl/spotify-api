@@ -6,6 +6,7 @@ import { TrackModule } from "src/modules/track/track.module";
 import { Album } from "./album.entity";
 import { AlbumResolver } from "./album.resolver";
 import { ArtistModule } from "../artist/artist.module";
+import { LikeableModule } from "../likeable/likeable.module";
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { ArtistModule } from "../artist/artist.module";
         AssetModule,
         forwardRef(() => TrackModule),
         forwardRef(() => ArtistModule),
+        forwardRef(() => LikeableModule),
     ],
     providers: [AlbumService, AlbumResolver],
     exports: [AlbumService],

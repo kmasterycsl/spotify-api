@@ -32,6 +32,7 @@ export class Likeable {
 export enum LikeableType {
     "TRACK" = "TRACK",
     "ALBUM" = "ALBUM",
+    "ARTIST" = "ARTIST",
     "PLAYLIST" = "PLAYLIST",
 }
 

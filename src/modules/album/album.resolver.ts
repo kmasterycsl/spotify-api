@@ -4,10 +4,11 @@ import { Asset, IImageMeta } from "src/modules/asset/asset.entity";
 import { AssetService } from "src/modules/asset/asset.service";
 import { Track } from "src/modules/track/track.entity";
 import { TrackService } from "src/modules/track/track.service";
+import { CurrentUser } from "src/shared/decorators/current-user.decorator";
 import { Artist } from "../artist/artist.entity";
 import { ArtistService } from "../artist/artist.service";
-import { GqlAuthGuard } from "../user/strategies/graphql.guard";
-import { OptionalGqlAuthGuard } from "../user/strategies/optional-graphql.guard";
+import { LikeableType } from "../likeable/likeable.entity";
+import { LikeableService } from "../likeable/likeable.service";
 import { Album } from "./album.entity";
 import { AlbumService } from "./album.service";
 
@@ -17,10 +18,10 @@ export class AlbumResolver {
         private readonly albumsService: AlbumService,
         private readonly assetService: AssetService,
         private readonly trackService: TrackService,
-        private readonly artistService: ArtistService
+        private readonly artistService: ArtistService,
+        private readonly likeableService: LikeableService
     ) {}
 
-    @UseGuards(OptionalGqlAuthGuard)
     @Query(returns => Album, { name: "album" })
     async getAlbumById(@Args("id") id: string): Promise<Album> {
         return this.albumsService.findOneById(id);
@@ -34,6 +35,13 @@ export class AlbumResolver {
     @ResolveField(returns => [Artist])
     async allArtists(@Parent() album: Album): Promise<Artist[]> {
         return this.artistService.findArtistsInAlbum(album.id);
+    }
+
+    @ResolveField(returns => Boolean)
+    async isLiked(@Parent() album: Album, @CurrentUser() user?): Promise<boolean> {
+        return user
+            ? !!(await this.likeableService.findOneLikable(LikeableType.ALBUM, album.id, user.id))
+            : false;
     }
 
     @ResolveField()
