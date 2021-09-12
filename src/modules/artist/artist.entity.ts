@@ -1,12 +1,12 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { ArtistToTrack } from 'src/modules/artist/artist-to-track.entity';
-import { Asset, IImageMeta } from 'src/modules/asset/asset.entity';
-import { PaginatedTrack } from 'src/modules/track/track.entity';
-import { Paginated } from 'src/shared/Paginated';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Album } from '../album/album.entity';
+import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { ArtistToTrack } from "src/modules/artist/artist-to-track.entity";
+import { Asset, IImageMeta } from "src/modules/asset/asset.entity";
+import { PaginatedTrack } from "src/modules/track/track.entity";
+import { Paginated } from "src/shared/Paginated";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Album } from "../album/album.entity";
 
-@Entity({ name: 'artists' })
+@Entity({ name: "artists" })
 @ObjectType()
 export class Artist {
     @PrimaryGeneratedColumn()
@@ -54,4 +54,4 @@ export class Artist {
 }
 
 @ObjectType()
-export class PaginatedArtist extends Paginated(Artist) { }
+export class PaginatedArtist extends Paginated(Artist) {}

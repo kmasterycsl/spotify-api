@@ -4,10 +4,10 @@ import { SocialProvider } from "../social-provider.entity";
 
 @ArgsType()
 export class LoginByGoogleArgs {
-    @Field((type) => String)
+    @Field(type => String)
     idToken: string;
-  
-    @Field((type) => String)
+
+    @Field(type => String)
     // @IsEntityExist(SocialProvider)
     providerId: string;
 }

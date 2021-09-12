@@ -1,71 +1,71 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Track } from 'src/modules/track/track.entity';
+import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Track } from "src/modules/track/track.entity";
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { Artist } from '../artist/artist.entity';
-import { Asset, IImageMeta } from '../asset/asset.entity';
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from "typeorm";
+import { Artist } from "../artist/artist.entity";
+import { Asset, IImageMeta } from "../asset/asset.entity";
 
 export enum AlbumType {
-  SINGLE = 'SINGLE',
-  COMPILATION = 'COMPILATION',
+    SINGLE = "SINGLE",
+    COMPILATION = "COMPILATION",
 }
 
-@Entity({ name: 'albums' })
+@Entity({ name: "albums" })
 @ObjectType()
 export class Album {
-  @PrimaryGeneratedColumn()
-  @Field((type) => ID)
-  id: string;
+    @PrimaryGeneratedColumn()
+    @Field(type => ID)
+    id: string;
 
-  @Column()
-  @Field()
-  name: string;
+    @Column()
+    @Field()
+    name: string;
 
-  @Column({ nullable: true })
-  @Field()
-  description: string;
+    @Column({ nullable: true })
+    @Field()
+    description: string;
 
-  @Column({ type: 'enum', enum: AlbumType })
-  @Field()
-  type: AlbumType;
+    @Column({ type: "enum", enum: AlbumType })
+    @Field()
+    type: AlbumType;
 
-  @Column()
-  @Field()
-  coverImageId: string;
+    @Column()
+    @Field()
+    coverImageId: string;
 
-  @OneToOne(() => Asset)
-  @JoinColumn()
-  @Field((type) => Asset)
-  coverImage: Asset<IImageMeta>;
+    @OneToOne(() => Asset)
+    @JoinColumn()
+    @Field(type => Asset)
+    coverImage: Asset<IImageMeta>;
 
-  @Column()
-  @Field()
-  artistId: string;
+    @Column()
+    @Field()
+    artistId: string;
 
-  @ManyToOne(() => Artist, (artist) => artist)
-  public artist!: Artist;
+    @ManyToOne(() => Artist, artist => artist)
+    public artist!: Artist;
 
-  @Field((type) => [Artist])
-  allArtists: Artist[];
+    @Field(type => [Artist])
+    allArtists: Artist[];
 
-  @OneToMany(() => Track, (track) => track.album)
-  @Field((type) => [Track])
-  tracks: Track[];
+    @OneToMany(() => Track, track => track.album)
+    @Field(type => [Track])
+    tracks: Track[];
 
-  @CreateDateColumn()
-  @Field()
-  createdAt: Date;
+    @CreateDateColumn()
+    @Field()
+    createdAt: Date;
 
-  @UpdateDateColumn()
-  @Field()
-  updatedAt: Date;
+    @UpdateDateColumn()
+    @Field()
+    updatedAt: Date;
 }
