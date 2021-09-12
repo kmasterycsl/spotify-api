@@ -25,7 +25,7 @@ export class LikeableService {
                     user.id
                 );
                 if (existedLikeable) {
-                    await this.likeablesRepository.delete(existedLikeable);
+                    await this.likeablesRepository.remove(existedLikeable);
                     return false;
                 } else {
                     const likeable = new Likeable();
