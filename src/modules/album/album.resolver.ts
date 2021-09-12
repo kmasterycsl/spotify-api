@@ -1,4 +1,3 @@
-import { UseGuards } from "@nestjs/common";
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { Asset, IImageMeta } from "src/modules/asset/asset.entity";
 import { AssetService } from "src/modules/asset/asset.service";
@@ -12,7 +11,7 @@ import { LikeableService } from "../likeable/likeable.service";
 import { Album } from "./album.entity";
 import { AlbumService } from "./album.service";
 
-@Resolver(of => Album)
+@Resolver(() => Album)
 export class AlbumResolver {
     constructor(
         private readonly albumsService: AlbumService,
@@ -22,22 +21,22 @@ export class AlbumResolver {
         private readonly likeableService: LikeableService
     ) {}
 
-    @Query(returns => Album, { name: "album" })
+    @Query(() => Album, { name: "album" })
     async getAlbumById(@Args("id") id: string): Promise<Album> {
         return this.albumsService.findOneById(id);
     }
 
-    @ResolveField(returns => [Track])
+    @ResolveField(() => [Track])
     async tracks(@Parent() album: Album): Promise<Track[]> {
         return this.trackService.findByAlbumId(album.id);
     }
 
-    @ResolveField(returns => [Artist])
+    @ResolveField(() => [Artist])
     async allArtists(@Parent() album: Album): Promise<Artist[]> {
         return this.artistService.findArtistsInAlbum(album.id);
     }
 
-    @ResolveField(returns => Boolean)
+    @ResolveField(() => Boolean)
     async isLiked(@Parent() album: Album, @CurrentUser() user?): Promise<boolean> {
         return user
             ? !!(await this.likeableService.findOneLikable(LikeableType.ALBUM, album.id, user.id))

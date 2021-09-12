@@ -11,7 +11,7 @@ import { LikeableType } from "../likeable/likeable.entity";
 import { LikeableService } from "../likeable/likeable.service";
 import { GqlAuthGuard } from "../user/strategies/graphql.guard";
 
-@Resolver(of => Track)
+@Resolver(() => Track)
 export class TrackResolver {
     constructor(
         private readonly trackService: TrackService,
@@ -20,24 +20,24 @@ export class TrackResolver {
         private readonly likeableService: LikeableService
     ) {}
 
-    @Query(returns => Track, { name: "track" })
+    @Query(() => Track, { name: "track" })
     async getTrackById(@Args("id") id: string): Promise<Track> {
         return this.trackService.findOneById(id);
     }
 
-    @ResolveField(returns => Album)
+    @ResolveField(() => Album)
     async album(@Parent() track: Track): Promise<Album> {
         return this.albumService.findOneById(track.albumId);
     }
 
-    @ResolveField(returns => Boolean)
+    @ResolveField(() => Boolean)
     async isLiked(@Parent() track: Track, @CurrentUser() user?): Promise<boolean> {
         return user
             ? !!(await this.likeableService.findOneLikable(LikeableType.TRACK, track.id, user.id))
             : false;
     }
 
-    @ResolveField(returns => [Artist])
+    @ResolveField(() => [Artist])
     async artists(@Parent() track: Track): Promise<Artist[]> {
         return this.artistService.findArtistsInTrack(track.id);
     }
