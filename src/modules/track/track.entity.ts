@@ -1,12 +1,20 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Asset, IImageMeta, ISoundMeta } from 'src/modules/asset/asset.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
-import { Paginated } from 'src/shared/Paginated';
-import { ArtistToTrack } from '../artist/artist-to-track.entity';
-import { Album } from '../album/album.entity';
-import { Artist } from '../artist/artist.entity';
+import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Asset, IImageMeta, ISoundMeta } from "src/modules/asset/asset.entity";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToOne,
+    JoinColumn,
+    OneToMany,
+    ManyToOne,
+} from "typeorm";
+import { Paginated } from "src/shared/Paginated";
+import { ArtistToTrack } from "../artist/artist-to-track.entity";
+import { Album } from "../album/album.entity";
+import { Artist } from "../artist/artist.entity";
 
-@Entity({ name: 'tracks' })
+@Entity({ name: "tracks" })
 @ObjectType()
 export class Track {
     @PrimaryGeneratedColumn()
@@ -28,7 +36,7 @@ export class Track {
     @JoinColumn()
     @Field(type => Asset)
     sound: Asset<ISoundMeta>;
-    
+
     @Field(type => [Artist])
     artists: Artist[];
 
@@ -37,4 +45,4 @@ export class Track {
 }
 
 @ObjectType()
-export class PaginatedTrack extends Paginated(Track) { }
+export class PaginatedTrack extends Paginated(Track) {}

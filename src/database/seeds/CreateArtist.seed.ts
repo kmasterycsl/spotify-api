@@ -1,10 +1,10 @@
-import { Artist } from 'src/modules/artist/artist.entity';
-import { Track } from 'src/modules/track/track.entity';
-import { Connection } from 'typeorm'
-import { Factory, Seeder } from 'typeorm-seeding'
-import * as _ from 'lodash';
-import { ArtistToTrack } from 'src/modules/artist/artist-to-track.entity';
-import { Album, AlbumType } from 'src/modules/album/album.entity';
+import { Artist } from "src/modules/artist/artist.entity";
+import { Track } from "src/modules/track/track.entity";
+import { Connection } from "typeorm";
+import { Factory, Seeder } from "typeorm-seeding";
+import * as _ from "lodash";
+import { ArtistToTrack } from "src/modules/artist/artist-to-track.entity";
+import { Album, AlbumType } from "src/modules/album/album.entity";
 
 export default class CreateArtist implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -30,16 +30,17 @@ export default class CreateArtist implements Seeder {
                     }
 
                     for (const pickedArtist of pickedArtists) {
-                        artistToTracks$.push(factory(ArtistToTrack)({
-                            artistId: pickedArtist.id,
-                            trackId: track.id,
-                            order: lastOrder++,
-                        }).create());
+                        artistToTracks$.push(
+                            factory(ArtistToTrack)({
+                                artistId: pickedArtist.id,
+                                trackId: track.id,
+                                order: lastOrder++,
+                            }).create()
+                        );
                     }
                 }
             }
         }
-
 
         await Promise.all(artistToTracks$);
     }

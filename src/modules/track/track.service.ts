@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { In, Repository } from 'typeorm';
-import { GetTracksArgs } from './args/GetTracks.args';
-import { ArtistToTrack } from '../artist/artist-to-track.entity';
-import { Track } from './track.entity';
-import { Artist } from '../artist/artist.entity';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { paginate, Pagination } from "nestjs-typeorm-paginate";
+import { In, Repository } from "typeorm";
+import { GetTracksArgs } from "./args/GetTracks.args";
+import { ArtistToTrack } from "../artist/artist-to-track.entity";
+import { Track } from "./track.entity";
+import { Artist } from "../artist/artist.entity";
 
 @Injectable()
 export class TrackService {
@@ -13,22 +13,23 @@ export class TrackService {
         @InjectRepository(Track)
         private tracksRepository: Repository<Track>,
         @InjectRepository(ArtistToTrack)
-        private artistToTrackRepository: Repository<ArtistToTrack>,
-    ) { }
+        private artistToTrackRepository: Repository<ArtistToTrack>
+    ) {}
 
     findOneById(id: string): Promise<Track> {
         return this.tracksRepository.findOne(id);
     }
 
     async findByArtistId(artistId: string, args: GetTracksArgs): Promise<Pagination<Track>> {
-        const artistToTracks = await paginate(this.artistToTrackRepository, args, { where: { artistId } });
+        const artistToTracks = await paginate(this.artistToTrackRepository, args, {
+            where: { artistId },
+        });
         const trackIds = artistToTracks.items.map(att => att.trackId);
         const tracks = await this.tracksRepository.findByIds(trackIds);
-        return new Pagination(tracks, artistToTracks.meta)
+        return new Pagination(tracks, artistToTracks.meta);
     }
 
     async findByAlbumId(albumId: string): Promise<Track[]> {
         return this.tracksRepository.find({ albumId });
     }
-
 }

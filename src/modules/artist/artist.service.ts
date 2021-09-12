@@ -1,14 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
-import {
-    paginate,
-    Pagination,
-} from 'nestjs-typeorm-paginate';
-import { GetArtistsArgs } from './args/GetArtists.arg';
-import { Artist } from './artist.entity';
-import { ArtistToTrack } from './artist-to-track.entity';
-import { TrackService } from '../track/track.service';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { In, Repository } from "typeorm";
+import { paginate, Pagination } from "nestjs-typeorm-paginate";
+import { GetArtistsArgs } from "./args/GetArtists.arg";
+import { Artist } from "./artist.entity";
+import { ArtistToTrack } from "./artist-to-track.entity";
+import { TrackService } from "../track/track.service";
 @Injectable()
 export class ArtistService {
     constructor(
@@ -16,11 +13,14 @@ export class ArtistService {
         private artistsRepository: Repository<Artist>,
         @InjectRepository(ArtistToTrack)
         private artistToTrackRepository: Repository<ArtistToTrack>,
-        private trackService: TrackService,
-    ) { }
+        private trackService: TrackService
+    ) {}
 
     find(args: GetArtistsArgs): Promise<Pagination<Artist>> {
-        return paginate<Artist>(this.artistsRepository, { limit: args.limit, page: args.page });
+        return paginate<Artist>(this.artistsRepository, {
+            limit: args.limit,
+            page: args.page,
+        });
     }
 
     findOneById(id: string): Promise<Artist> {
@@ -32,20 +32,20 @@ export class ArtistService {
         const trackIds = tracks.map(t => t.id);
         const artistToTracks = await this.artistToTrackRepository.find({
             where: {
-                trackId: In(trackIds)
-            }
+                trackId: In(trackIds),
+            },
         });
 
         const artistIds = artistToTracks.map(artistToTrack => artistToTrack.artistId);
 
         return this.artistsRepository.findByIds(artistIds);
     }
-    
+
     async findArtistsInTrack(trackId: string): Promise<Artist[]> {
         const artistToTracks = await this.artistToTrackRepository.find({
             where: {
-                trackId
-            }
+                trackId,
+            },
         });
 
         const artistIds = artistToTracks.map(artistToTrack => artistToTrack.artistId);

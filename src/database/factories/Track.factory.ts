@@ -1,7 +1,7 @@
-import Faker from 'faker'
-import { Asset, AssetType } from 'src/modules/asset/asset.entity'
-import { Track } from 'src/modules/track/track.entity';
-import { define, factory } from 'typeorm-seeding';
+import Faker from "faker";
+import { Asset, AssetType } from "src/modules/asset/asset.entity";
+import { Track } from "src/modules/track/track.entity";
+import { define, factory } from "typeorm-seeding";
 
 define(Track, (faker: typeof Faker, context: { albumId: string }) => {
     const name = faker.commerce.productName();
@@ -9,7 +9,7 @@ define(Track, (faker: typeof Faker, context: { albumId: string }) => {
     const track = new Track();
     track.name = name;
     track.albumId = context.albumId;
-    track.sound = factory(Asset)({ kind: 'sound', type: AssetType.SOUND }) as any;
+    track.sound = factory(Asset)({ kind: "sound", type: AssetType.SOUND }) as any;
 
     return track;
-})
+});
