@@ -32,6 +32,7 @@ type Album {
   artistId: String!
   allArtists: [Artist!]!
   tracks: [Track!]!
+  isLiked: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -118,5 +119,6 @@ type Mutation {
 enum LikeableType {
   TRACK
   ALBUM
+  ARTIST
   PLAYLIST
 }
