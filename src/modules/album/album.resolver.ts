@@ -1,3 +1,4 @@
+import { UseGuards } from "@nestjs/common";
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { Asset, IImageMeta } from "src/modules/asset/asset.entity";
 import { AssetService } from "src/modules/asset/asset.service";
@@ -5,6 +6,8 @@ import { Track } from "src/modules/track/track.entity";
 import { TrackService } from "src/modules/track/track.service";
 import { Artist } from "../artist/artist.entity";
 import { ArtistService } from "../artist/artist.service";
+import { GqlAuthGuard } from "../user/strategies/graphql.guard";
+import { OptionalGqlAuthGuard } from "../user/strategies/optional-graphql.guard";
 import { Album } from "./album.entity";
 import { AlbumService } from "./album.service";
 
@@ -17,6 +20,7 @@ export class AlbumResolver {
         private readonly artistService: ArtistService
     ) {}
 
+    @UseGuards(OptionalGqlAuthGuard)
     @Query(returns => Album, { name: "album" })
     async getAlbumById(@Args("id") id: string): Promise<Album> {
         return this.albumsService.findOneById(id);
