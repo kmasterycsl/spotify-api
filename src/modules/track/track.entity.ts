@@ -40,6 +40,9 @@ export class Track {
     @Field(type => [Artist])
     artists: Artist[];
 
+    @Field(type => Boolean)
+    isLiked: boolean;
+
     @OneToMany(() => ArtistToTrack, artistToTrack => artistToTrack.track)
     public artistToTracks!: ArtistToTrack[];
 }

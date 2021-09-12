@@ -47,6 +47,7 @@ type Track {
   albumId: String!
   sound: Asset!
   artists: [Artist!]!
+  isLiked: Boolean!
   album: Album!
 }
 
@@ -110,5 +111,12 @@ type Query {
 }
 
 type Mutation {
+  like(likeableType: LikeableType!, likeableId: String!): Boolean!
   loginBySocialProvider(idToken: String!, providerId: String!): UserWithAccessToken!
+}
+
+enum LikeableType {
+  TRACK
+  ALBUM
+  PLAYLIST
 }
