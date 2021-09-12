@@ -9,7 +9,7 @@ import { Pagination } from "nestjs-typeorm-paginate";
 import { TrackService } from "src/modules/track/track.service";
 import { GetTracksArgs } from "src/modules/track/args/GetTracks.args";
 
-@Resolver(of => Artist)
+@Resolver(() => Artist)
 export class ArtistResolver {
     constructor(
         private readonly artistsService: ArtistService,
@@ -17,12 +17,12 @@ export class ArtistResolver {
         private readonly trackService: TrackService
     ) {}
 
-    @Query(returns => PaginatedArtist, { name: "artists" })
+    @Query(() => PaginatedArtist, { name: "artists" })
     async getArtists(@Args() args: GetArtistsArgs) {
         return this.artistsService.find(args);
     }
 
-    @Query(returns => Artist, { name: "artist" })
+    @Query(() => Artist, { name: "artist" })
     async getArtistById(@Args("id") id: string): Promise<Artist> {
         return this.artistsService.findOneById(id);
     }

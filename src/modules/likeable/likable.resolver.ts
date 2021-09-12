@@ -7,11 +7,11 @@ import { LikeArgs } from "./args/Like.arg";
 import { Likeable } from "./likeable.entity";
 import { LikeableService } from "./likeable.service";
 
-@Resolver(of => Likeable)
+@Resolver(() => Likeable)
 export class LikeableResolver {
     constructor(private readonly likeableService: LikeableService) {}
 
-    @Mutation(returns => Boolean)
+    @Mutation(() => Boolean)
     @UseGuards(GqlAuthGuard)
     async like(@Args() args: LikeArgs, @CurrentUser() user: User): Promise<boolean> {
         return this.likeableService.like(args, user);

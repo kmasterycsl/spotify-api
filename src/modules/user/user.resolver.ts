@@ -7,25 +7,25 @@ import { GqlAuthGuard } from "./strategies/graphql.guard";
 import { User, UserWithAccessToken } from "./user.entity";
 import { UserService } from "./user.service";
 
-@Resolver(of => User)
+@Resolver(() => User)
 export class UserResolver {
     constructor(
         private readonly userService: UserService,
         private readonly authService: AuthService
     ) {}
 
-    @Query(returns => User)
+    @Query(() => User)
     @UseGuards(GqlAuthGuard)
     whoAmI(@CurrentUser() user: User) {
         return this.userService.findOneById(user.id);
     }
 
-    @Mutation(returns => UserWithAccessToken)
+    @Mutation(() => UserWithAccessToken)
     async loginBySocialProvider(@Args() args: LoginByGoogleArgs): Promise<UserWithAccessToken> {
         return this.authService.loginBySocialProvider(args);
     }
 
-    @Query(returns => User, { name: "user" })
+    @Query(() => User, { name: "user" })
     async getUserById(@Args("id") id: string): Promise<User> {
         return this.userService.findOneById(id);
     }
