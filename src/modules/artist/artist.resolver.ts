@@ -8,13 +8,17 @@ import { Track } from "src/modules/track/track.entity";
 import { Pagination } from "nestjs-typeorm-paginate";
 import { TrackService } from "src/modules/track/track.service";
 import { GetTracksArgs } from "src/modules/track/args/GetTracks.args";
+import { CurrentUser } from "src/shared/decorators/current-user.decorator";
+import { LikeableService } from "../likeable/likeable.service";
+import { LikeableType } from "../likeable/likeable.entity";
 
 @Resolver(() => Artist)
 export class ArtistResolver {
     constructor(
         private readonly artistsService: ArtistService,
         private readonly assetService: AssetService,
-        private readonly trackService: TrackService
+        private readonly trackService: TrackService,
+        private readonly likeableService: LikeableService
     ) {}
 
     @Query(() => PaginatedArtist, { name: "artists" })
@@ -47,5 +51,12 @@ export class ArtistResolver {
         @Parent() artist: Artist & { avatarImageId: string }
     ): Promise<Asset<IImageMeta>> {
         return this.assetService.findOneById(artist.avatarImageId);
+    }
+
+    @ResolveField(() => Boolean)
+    async isLiked(@Parent() artist: Artist, @CurrentUser() user?): Promise<boolean> {
+        return user
+            ? !!(await this.likeableService.findOneLikable(LikeableType.ARTIST, artist.id, user.id))
+            : false;
     }
 }

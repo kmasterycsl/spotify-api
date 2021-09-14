@@ -75,6 +75,7 @@ type Artist {
   avatarImageId: String!
   avatarImage: Asset!
   tracks(page: Int = 0, limit: Int = 10): PaginatedTrack!
+  isLiked: Boolean!
 }
 
 type ArtistEdge {
