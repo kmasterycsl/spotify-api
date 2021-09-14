@@ -51,6 +51,9 @@ export class Artist {
 
     @Field(type => PaginatedTrack)
     tracks: PaginatedTrack;
+
+    @Field(type => Boolean)
+    isLiked: boolean;
 }
 
 @ObjectType()
