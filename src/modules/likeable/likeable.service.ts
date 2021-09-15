@@ -1,5 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Pagination, paginate } from "nestjs-typeorm-paginate";
+import { PaginationArgs } from "src/shared/args/PaginationArgs";
 import { Repository } from "typeorm";
 import { AlbumService } from "../album/album.service";
 import { ArtistService } from "../artist/artist.service";
@@ -17,6 +19,13 @@ export class LikeableService {
         private albumsService: AlbumService,
         private artistsService: ArtistService
     ) {}
+
+    async findByUserId(userId: string, args: PaginationArgs): Promise<Pagination<Likeable>> {
+        const likeables = await paginate(this.likeablesRepository, args, {
+            where: { userId },
+        });
+        return likeables;
+    }
 
     async like(arg: LikeArgs, user: User) {
         let target;

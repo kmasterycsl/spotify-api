@@ -103,10 +103,35 @@ type UserWithAccessToken {
   accessToken: String!
 }
 
+type Likeable {
+  likeableId: String!
+  likeableType: String!
+  userId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  album: Album
+  artist: Artist
+  track: Track
+}
+
+type LikeableEdge {
+  itemCount: Float!
+  totalItems: Float!
+  itemsPerPage: Float!
+  totalPages: Float!
+  currentPage: Float!
+}
+
+type PaginatedLikeable {
+  items: [Likeable!]!
+  meta: LikeableEdge!
+}
+
 type Query {
   artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
   artist(id: String!): Artist!
   track(id: String!): Track!
+  likeables(page: Int = 0, limit: Int = 10): PaginatedLikeable!
   album(id: String!): Album!
   whoAmI: User!
   user(id: String!): User!

@@ -1,5 +1,9 @@
 import { Field, ObjectType, registerEnumType } from "@nestjs/graphql";
+import { Paginated } from "src/shared/Paginated";
 import { CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Album } from "../album/album.entity";
+import { Artist } from "../artist/artist.entity";
+import { Track } from "../track/track.entity";
 import { User } from "../user/user.entity";
 
 @Entity({ name: "likeables" })
@@ -27,6 +31,15 @@ export class Likeable {
     @UpdateDateColumn()
     @Field()
     updatedAt: Date;
+
+    @Field({ nullable: true })
+    album?: Album;
+
+    @Field({ nullable: true })
+    artist?: Artist;
+
+    @Field({ nullable: true })
+    track?: Track;
 }
 
 export enum LikeableType {
@@ -39,3 +52,6 @@ export enum LikeableType {
 registerEnumType(LikeableType, {
     name: "LikeableType",
 });
+
+@ObjectType()
+export class PaginatedLikeable extends Paginated(Likeable) {}
