@@ -22,6 +22,14 @@ type SoundMeta {
   length: Float!
 }
 
+type PaginationMeta {
+  itemCount: Float!
+  totalItems: Float!
+  itemsPerPage: Float!
+  totalPages: Float!
+  currentPage: Float!
+}
+
 type Album {
   id: ID!
   name: String!
@@ -52,17 +60,9 @@ type Track {
   album: Album!
 }
 
-type TrackEdge {
-  itemCount: Float!
-  totalItems: Float!
-  itemsPerPage: Float!
-  totalPages: Float!
-  currentPage: Float!
-}
-
 type PaginatedTrack {
   items: [Track!]!
-  meta: TrackEdge!
+  pageInfo: PaginationMeta!
 }
 
 type Artist {
@@ -78,17 +78,9 @@ type Artist {
   isLiked: Boolean!
 }
 
-type ArtistEdge {
-  itemCount: Float!
-  totalItems: Float!
-  itemsPerPage: Float!
-  totalPages: Float!
-  currentPage: Float!
-}
-
 type PaginatedArtist {
   items: [Artist!]!
-  meta: ArtistEdge!
+  pageInfo: PaginationMeta!
 }
 
 type User {
@@ -114,17 +106,9 @@ type Likeable {
   track: Track
 }
 
-type LikeableEdge {
-  itemCount: Float!
-  totalItems: Float!
-  itemsPerPage: Float!
-  totalPages: Float!
-  currentPage: Float!
-}
-
 type PaginatedLikeable {
   items: [Likeable!]!
-  meta: LikeableEdge!
+  pageInfo: PaginationMeta!
 }
 
 type Query {
