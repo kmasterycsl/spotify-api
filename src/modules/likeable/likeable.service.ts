@@ -25,6 +25,9 @@ export class LikeableService {
     async findByUserId(userId: string, args: PaginationArgs): Promise<Pagination<Likeable>> {
         const likeables = await paginate(this.likeablesRepository, args, {
             where: { userId },
+            order: {
+                createdAt: "DESC",
+            },
         });
         return convertToCustomPagination(likeables);
     }
