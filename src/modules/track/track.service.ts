@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { paginate, Pagination } from "nestjs-typeorm-paginate";
-import { In, Repository } from "typeorm";
+import { paginate } from "nestjs-typeorm-paginate";
+import { Repository } from "typeorm";
 import { GetTracksArgs } from "./args/GetTracks.args";
 import { ArtistToTrack } from "../artist/artist-to-track.entity";
 import { Track } from "./track.entity";
-import { Artist } from "../artist/artist.entity";
+import { Pagination } from "src/shared/Pagination";
 
 @Injectable()
 export class TrackService {

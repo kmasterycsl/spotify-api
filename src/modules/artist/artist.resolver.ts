@@ -5,12 +5,12 @@ import { GetArtistsArgs } from "./args/GetArtists.arg";
 import { Artist, PaginatedArtist } from "./artist.entity";
 import { ArtistService } from "./artist.service";
 import { Track } from "src/modules/track/track.entity";
-import { Pagination } from "nestjs-typeorm-paginate";
 import { TrackService } from "src/modules/track/track.service";
 import { GetTracksArgs } from "src/modules/track/args/GetTracks.args";
 import { CurrentUser } from "src/shared/decorators/current-user.decorator";
 import { LikeableService } from "../likeable/likeable.service";
 import { LikeableType } from "../likeable/likeable.entity";
+import { Pagination } from "src/shared/Pagination";
 
 @Resolver(() => Artist)
 export class ArtistResolver {
