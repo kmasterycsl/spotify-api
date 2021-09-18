@@ -95,6 +95,13 @@ type UserWithAccessToken {
   accessToken: String!
 }
 
+type Playlist {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Likeable {
   likeableId: String!
   likeableType: String!
@@ -104,6 +111,7 @@ type Likeable {
   album: Album
   artist: Artist
   track: Track
+  playlist: Playlist
 }
 
 type PaginatedLikeable {
@@ -123,6 +131,7 @@ type Query {
 
 type Mutation {
   like(likeableType: LikeableType!, likeableId: String!): Boolean!
+  createPlaylist(name: String!): Playlist!
   loginBySocialProvider(idToken: String!, providerId: String!): UserWithAccessToken!
 }
 
