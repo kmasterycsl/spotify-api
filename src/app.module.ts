@@ -10,6 +10,7 @@ import { TrackModule } from "./modules/track/track.module";
 import { UserModule } from "./modules/user/user.module";
 import { AlbumModule } from "./modules/album/album.module";
 import { LikeableModule } from "./modules/likeable/likeable.module";
+import { PlaylistModule } from "./modules/playlist/playlist.module";
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { LikeableModule } from "./modules/likeable/likeable.module";
         UserModule,
         AlbumModule,
         LikeableModule,
+        PlaylistModule,
     ],
     controllers: [AppController],
     providers: [AppService],

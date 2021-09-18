@@ -6,6 +6,8 @@ import { Album } from "../album/album.entity";
 import { AlbumService } from "../album/album.service";
 import { Artist } from "../artist/artist.entity";
 import { ArtistService } from "../artist/artist.service";
+import { Playlist } from "../playlist/playlist.entity";
+import { PlaylistService } from "../playlist/playlist.service";
 import { Track } from "../track/track.entity";
 import { TrackService } from "../track/track.service";
 import { GqlAuthGuard } from "../user/strategies/graphql.guard";
@@ -20,7 +22,8 @@ export class LikeableResolver {
         private readonly likeableService: LikeableService,
         private readonly trackService: TrackService,
         private readonly albumService: AlbumService,
-        private readonly artistService: ArtistService
+        private readonly artistService: ArtistService,
+        private readonly playlistService: PlaylistService
     ) {}
 
     @Query(() => PaginatedLikeable, { name: "likeables" })
@@ -47,6 +50,13 @@ export class LikeableResolver {
     async artist(@Parent() likeable: Likeable): Promise<Artist | null> {
         return likeable.likeableType === LikeableType.ARTIST
             ? this.artistService.findOneById(likeable.likeableId)
+            : null;
+    }
+
+    @ResolveField(() => Playlist)
+    async playlist(@Parent() likeable: Likeable): Promise<Playlist | null> {
+        return likeable.likeableType === LikeableType.PLAYLIST
+            ? this.playlistService.findOneById(likeable.likeableId)
             : null;
     }
 

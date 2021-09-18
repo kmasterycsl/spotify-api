@@ -3,6 +3,7 @@ import { Paginated } from "src/shared/Paginated";
 import { CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { Album } from "../album/album.entity";
 import { Artist } from "../artist/artist.entity";
+import { Playlist } from "../playlist/playlist.entity";
 import { Track } from "../track/track.entity";
 import { User } from "../user/user.entity";
 
@@ -40,6 +41,9 @@ export class Likeable {
 
     @Field({ nullable: true })
     track?: Track;
+
+    @Field({ nullable: true })
+    playlist?: Playlist;
 }
 
 export enum LikeableType {
