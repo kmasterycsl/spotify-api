@@ -9,6 +9,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
+import { PaginatedTrack } from "../track/track.entity";
 import { User } from "../user/user.entity";
 import { PlaylistToTrack } from "./playlist-to-track.entity";
 
@@ -42,6 +43,9 @@ export class Playlist {
 
     @Field()
     tracksCount: number;
+
+    @Field(type => PaginatedTrack)
+    tracks: PaginatedTrack;
 }
 
 @ObjectType()
