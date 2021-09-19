@@ -100,6 +100,7 @@ type Playlist {
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  tracksCount: Float!
 }
 
 type Likeable {
@@ -125,6 +126,7 @@ type Query {
   track(id: String!): Track!
   likeables(page: Int = 0, limit: Int = 10): PaginatedLikeable!
   album(id: String!): Album!
+  getOwnPlaylists: [Playlist!]!
   whoAmI: User!
   user(id: String!): User!
 }
@@ -132,6 +134,7 @@ type Query {
 type Mutation {
   like(likeableType: LikeableType!, likeableId: String!): Boolean!
   createPlaylist(name: String!): Playlist!
+  addTrackToPlaylist(playlistId: String!, trackId: String!): Playlist!
   loginBySocialProvider(idToken: String!, providerId: String!): UserWithAccessToken!
 }
 
