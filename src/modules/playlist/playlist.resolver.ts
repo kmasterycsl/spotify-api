@@ -2,6 +2,9 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { TrackService } from "src/modules/track/track.service";
 import { CurrentUser } from "src/shared/decorators/current-user.decorator";
+import { Pagination } from "src/shared/Pagination";
+import { GetTracksArgs } from "../track/args/GetTracks.args";
+import { Track } from "../track/track.entity";
 import { GqlAuthGuard } from "../user/strategies/graphql.guard";
 import { User } from "../user/user.entity";
 import { AddTrackToPlaylist } from "./args/AddTrackToPlaylist.arg";
@@ -22,6 +25,11 @@ export class PlaylistResolver {
         return this.playlistService.findByUserId(user.id);
     }
 
+    @Query(() => Playlist, { name: "playlist" })
+    async getPlaylist(@Args("id") id: string): Promise<Playlist> {
+        return this.playlistService.findOneById(id);
+    }
+
     @Mutation(() => Playlist)
     @UseGuards(GqlAuthGuard)
     async createPlaylist(
@@ -38,6 +46,14 @@ export class PlaylistResolver {
         @CurrentUser() user: User
     ): Promise<Playlist> {
         return this.playlistService.addTrackToPlaylist(args, user);
+    }
+
+    @ResolveField()
+    async tracks(
+        @Parent() playlist: Playlist,
+        @Args() args: GetTracksArgs
+    ): Promise<Pagination<Track>> {
+        return this.trackService.findByPlaylistId(playlist.id, args);
     }
 
     @ResolveField(() => Number)
