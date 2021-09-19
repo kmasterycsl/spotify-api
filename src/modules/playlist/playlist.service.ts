@@ -63,23 +63,33 @@ export class PlaylistService {
     }
 
     async addTrackToPlaylist(arg: AddTrackToPlaylist, user: User) {
-        const [playlist, track, latestPlaylistToTrack] = await Promise.all([
-            this.playlistsRepository.findOneOrFail(arg.playlistId),
-            this.tracksRepository.findOneOrFail(arg.trackId),
-            this.playlistToTrackRepository.findOne(
-                {
-                    playlistId: arg.playlistId,
-                },
-                {
-                    order: {
-                        order: "DESC",
+        const [playlist, track, latestPlaylistToTrack, existingPlaylistToTrack] = await Promise.all(
+            [
+                this.playlistsRepository.findOneOrFail(arg.playlistId),
+                this.tracksRepository.findOneOrFail(arg.trackId),
+                this.playlistToTrackRepository.findOne(
+                    {
+                        playlistId: arg.playlistId,
                     },
-                }
-            ),
-        ]);
+                    {
+                        order: {
+                            order: "DESC",
+                        },
+                    }
+                ),
+                this.playlistToTrackRepository.findOne({
+                    playlistId: arg.playlistId,
+                    trackId: arg.trackId,
+                }),
+            ]
+        );
 
         if (playlist.userId !== user.id) {
             throw new ForbiddenError("Can't add track to other's playlist");
+        }
+
+        if (existingPlaylistToTrack) {
+            return playlist;
         }
 
         await this.playlistToTrackRepository.save({
