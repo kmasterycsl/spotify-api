@@ -128,7 +128,7 @@ type Query {
   likeables(page: Int = 0, limit: Int = 10): PaginatedLikeable!
   album(id: String!): Album!
   getOwnPlaylists: [Playlist!]!
-  playlist(id: String!): Playlist!
+  playlist(id: String!): Playlist
   whoAmI: User!
   user(id: String!): User!
 }

@@ -25,7 +25,7 @@ export class PlaylistResolver {
         return this.playlistService.findByUserId(user.id);
     }
 
-    @Query(() => Playlist, { name: "playlist" })
+    @Query(() => Playlist, { name: "playlist", nullable: true })
     async getPlaylist(@Args("id") id: string): Promise<Playlist> {
         return this.playlistService.findOneById(id);
     }

@@ -11,7 +11,6 @@ export class PlaylistToTrack {
     @Column({ primary: true })
     public trackId: string;
 
-    @Column({ primary: true })
     public order: number;
 
     @ManyToOne(() => Playlist, playlist => playlist, {
