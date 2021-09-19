@@ -39,6 +39,9 @@ export class Playlist {
     @UpdateDateColumn()
     @Field()
     updatedAt: Date;
+
+    @Field()
+    tracksCount: number;
 }
 
 @ObjectType()

@@ -14,7 +14,9 @@ export class PlaylistToTrack {
     @Column({ primary: true })
     public order: number;
 
-    @ManyToOne(() => Playlist, playlist => playlist)
+    @ManyToOne(() => Playlist, playlist => playlist, {
+        onDelete: "CASCADE",
+    })
     public playlist!: Playlist;
 
     @ManyToOne(() => Track, track => track)

@@ -15,6 +15,6 @@ import { TrackService } from "./track.service";
         TypeOrmModule.forFeature([Track]),
     ],
     providers: [TrackService, TrackResolver],
-    exports: [TrackService],
+    exports: [TrackService, TypeOrmModule],
 })
 export class TrackModule {}
