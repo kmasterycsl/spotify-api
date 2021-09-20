@@ -98,6 +98,7 @@ type UserWithAccessToken {
 type Playlist {
   id: ID!
   name: String!
+  userId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   tracksCount: Float!
@@ -136,6 +137,8 @@ type Query {
 type Mutation {
   like(likeableType: LikeableType!, likeableId: String!): Boolean!
   createPlaylist(name: String!): Playlist!
+  updatePlaylist(id: String!, name: String!): Playlist!
+  deletePlaylist(id: String!): Playlist!
   addTrackToPlaylist(playlistId: String!, trackId: String!): Playlist!
   loginBySocialProvider(idToken: String!, providerId: String!): UserWithAccessToken!
 }

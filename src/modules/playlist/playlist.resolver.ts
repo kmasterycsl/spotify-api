@@ -9,6 +9,8 @@ import { GqlAuthGuard } from "../user/strategies/graphql.guard";
 import { User } from "../user/user.entity";
 import { AddTrackToPlaylist } from "./args/AddTrackToPlaylist.arg";
 import { CreatePlaylistArgs } from "./args/CreatePlaylist.arg";
+import { DeletePlaylistArgs } from "./args/DeletePlaylist.arg";
+import { UpdatePlaylistArgs } from "./args/UpdatePlaylist.arg";
 import { Playlist } from "./playlist.entity";
 import { PlaylistService } from "./playlist.service";
 
@@ -37,6 +39,24 @@ export class PlaylistResolver {
         @CurrentUser() user: User
     ): Promise<Playlist> {
         return this.playlistService.createPlaylist(args, user);
+    }
+
+    @Mutation(() => Playlist)
+    @UseGuards(GqlAuthGuard)
+    async updatePlaylist(
+        @Args() args: UpdatePlaylistArgs,
+        @CurrentUser() user: User
+    ): Promise<Playlist> {
+        return this.playlistService.updatePlaylist(args, user);
+    }
+
+    @Mutation(() => Playlist)
+    @UseGuards(GqlAuthGuard)
+    async deletePlaylist(
+        @Args() args: DeletePlaylistArgs,
+        @CurrentUser() user: User
+    ): Promise<Playlist> {
+        return this.playlistService.deletePlaylist(args, user);
     }
 
     @Mutation(() => Playlist)

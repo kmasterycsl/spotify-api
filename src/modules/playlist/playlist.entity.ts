@@ -25,6 +25,7 @@ export class Playlist {
     name: string;
 
     @Column()
+    @Field()
     userId: string;
 
     @OneToMany(() => PlaylistToTrack, playlistToTrack => playlistToTrack.playlist)
