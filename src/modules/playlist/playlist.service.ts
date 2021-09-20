@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ForbiddenError } from "apollo-server-errors";
 import { getManager, Repository } from "typeorm";
@@ -7,6 +7,8 @@ import { Track } from "../track/track.entity";
 import { User } from "../user/user.entity";
 import { AddTrackToPlaylist } from "./args/AddTrackToPlaylist.arg";
 import { CreatePlaylistArgs } from "./args/CreatePlaylist.arg";
+import { DeletePlaylistArgs } from "./args/DeletePlaylist.arg";
+import { UpdatePlaylistArgs } from "./args/UpdatePlaylist.arg";
 import { PlaylistToTrack } from "./playlist-to-track.entity";
 import { Playlist } from "./playlist.entity";
 
@@ -58,6 +60,31 @@ export class PlaylistService {
 
             return playlist;
         });
+
+        return playlist;
+    }
+
+    async updatePlaylist(arg: UpdatePlaylistArgs, user: User) {
+        const playlist = await this.playlistsRepository.findOneOrFail(arg.id);
+
+        if (playlist.userId !== user.id) {
+            throw new ForbiddenException();
+        }
+
+        return this.playlistsRepository.save({
+            ...playlist,
+            name: arg.name,
+        });
+    }
+
+    async deletePlaylist(arg: DeletePlaylistArgs, user: User) {
+        const playlist = await this.playlistsRepository.findOneOrFail(arg.id);
+
+        if (playlist.userId !== user.id) {
+            throw new ForbiddenException();
+        }
+
+        await this.playlistsRepository.delete(playlist.id);
 
         return playlist;
     }
