@@ -22,7 +22,7 @@ export class Likeable {
     @Field()
     userId: string;
 
-    @ManyToOne(() => User, user => user)
+    @ManyToOne(() => User, user => user, { onDelete: "CASCADE", onUpdate: "CASCADE" })
     public user!: User;
 
     @CreateDateColumn()

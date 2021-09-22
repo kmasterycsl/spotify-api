@@ -19,7 +19,7 @@ export class UserToSocialProvider {
     @Column({ nullable: true })
     public socialProviderUserEmail: string;
 
-    @ManyToOne(() => User, user => user)
+    @ManyToOne(() => User, user => user, { onUpdate: "CASCADE", onDelete: "CASCADE" })
     public user!: User;
 
     @ManyToOne(() => SocialProvider, socialProvider => socialProvider)

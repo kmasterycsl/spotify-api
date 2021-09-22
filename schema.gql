@@ -99,10 +99,17 @@ type Playlist {
   id: ID!
   name: String!
   userId: String!
+  coverImageId: String
+  coverImage: Asset
   createdAt: DateTime!
   updatedAt: DateTime!
   tracksCount: Float!
   tracks(page: Int = 0, limit: Int = 10): PaginatedTrack!
+}
+
+type PaginatedPlaylist {
+  items: [Playlist!]!
+  pageInfo: PaginationMeta!
 }
 
 type Likeable {
@@ -122,6 +129,19 @@ type PaginatedLikeable {
   pageInfo: PaginationMeta!
 }
 
+type Genre {
+  id: ID!
+  name: String!
+  coverImageId: String!
+  coverImage: Asset!
+  playlists(page: Int = 0, limit: Int = 10): PaginatedPlaylist!
+}
+
+type PaginatedGenre {
+  items: [Genre!]!
+  pageInfo: PaginationMeta!
+}
+
 type Query {
   artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
   artist(id: String!): Artist!
@@ -130,6 +150,8 @@ type Query {
   album(id: String!): Album!
   getOwnPlaylists: [Playlist!]!
   playlist(id: String!): Playlist
+  genres(page: Int = 0, limit: Int = 10): PaginatedGenre!
+  genre(id: String!): Genre!
   whoAmI: User!
   user(id: String!): User!
 }

@@ -4,11 +4,14 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
+import { Asset, IImageMeta } from "../asset/asset.entity";
 import { PaginatedTrack } from "../track/track.entity";
 import { User } from "../user/user.entity";
 import { PlaylistToTrack } from "./playlist-to-track.entity";
@@ -31,8 +34,17 @@ export class Playlist {
     @OneToMany(() => PlaylistToTrack, playlistToTrack => playlistToTrack.playlist)
     playlistToTracks!: PlaylistToTrack[];
 
-    @ManyToOne(() => User, user => user)
+    @ManyToOne(() => User, user => user, { onUpdate: "CASCADE", onDelete: "CASCADE" })
     user!: User;
+
+    @Column({ nullable: true })
+    @Field({ nullable: true })
+    coverImageId?: string;
+
+    @OneToOne(() => Asset)
+    @JoinColumn()
+    @Field(type => Asset, { nullable: true })
+    coverImage?: Asset<IImageMeta>;
 
     @CreateDateColumn()
     @Field()
