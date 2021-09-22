@@ -137,11 +137,6 @@ type Genre {
   playlists(page: Int = 0, limit: Int = 10): PaginatedPlaylist!
 }
 
-type PaginatedGenre {
-  items: [Genre!]!
-  pageInfo: PaginationMeta!
-}
-
 type Query {
   artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
   artist(id: String!): Artist!
@@ -150,7 +145,7 @@ type Query {
   album(id: String!): Album!
   getOwnPlaylists: [Playlist!]!
   playlist(id: String!): Playlist
-  genres(page: Int = 0, limit: Int = 10): PaginatedGenre!
+  genres: [Genre!]!
   genre(id: String!): Genre!
   whoAmI: User!
   user(id: String!): User!
