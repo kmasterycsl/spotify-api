@@ -11,6 +11,7 @@ import { UserModule } from "./modules/user/user.module";
 import { AlbumModule } from "./modules/album/album.module";
 import { LikeableModule } from "./modules/likeable/likeable.module";
 import { PlaylistModule } from "./modules/playlist/playlist.module";
+import { GenreModule } from "./modules/genre/genre.module";
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import { PlaylistModule } from "./modules/playlist/playlist.module";
         AlbumModule,
         LikeableModule,
         PlaylistModule,
+        GenreModule,
     ],
     controllers: [AppController],
     providers: [AppService],

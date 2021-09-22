@@ -1,7 +1,11 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ForbiddenError } from "apollo-server-errors";
+import { paginate } from "nestjs-typeorm-paginate";
+import { Pagination } from "src/shared/Pagination";
 import { getManager, Repository } from "typeorm";
+import { GetPlaylistsArgs } from "../genre/args/GetPlaylists.args";
+import { GenreToPlaylist } from "../genre/genre-to-playlist.entity";
 import { Likeable, LikeableType } from "../likeable/likeable.entity";
 import { Track } from "../track/track.entity";
 import { User } from "../user/user.entity";
@@ -20,7 +24,9 @@ export class PlaylistService {
         @InjectRepository(Track)
         private tracksRepository: Repository<Track>,
         @InjectRepository(PlaylistToTrack)
-        private playlistToTrackRepository: Repository<PlaylistToTrack>
+        private playlistToTrackRepository: Repository<PlaylistToTrack>,
+        @InjectRepository(GenreToPlaylist)
+        private genreToPlaylistRepository: Repository<GenreToPlaylist>
     ) {}
 
     async findByUserId(userId: string): Promise<Playlist[]> {
@@ -126,5 +132,14 @@ export class PlaylistService {
         });
 
         return playlist;
+    }
+
+    async findByGenreId(genreId: string, args: GetPlaylistsArgs): Promise<Pagination<Playlist>> {
+        const genreToPlaylists = await paginate(this.genreToPlaylistRepository, args, {
+            where: { genreId },
+        });
+        const playlistIds = genreToPlaylists.items.map(att => att.playlistId);
+        const playlists = await this.playlistsRepository.findByIds(playlistIds);
+        return new Pagination(playlists, genreToPlaylists.meta);
     }
 }

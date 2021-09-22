@@ -7,7 +7,7 @@ import { ArtistToTrack } from "src/modules/artist/artist-to-track.entity";
 import { Album, AlbumType } from "src/modules/album/album.entity";
 
 export default class CreateArtist implements Seeder {
-    public async run(factory: Factory, connection: Connection): Promise<any> {
+    public async run(factory: Factory): Promise<any> {
         const artists = await factory(Artist)().createMany(10);
 
         const artistToTracks$ = [];

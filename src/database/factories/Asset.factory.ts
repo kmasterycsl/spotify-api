@@ -11,7 +11,13 @@ define(
         faker: typeof Faker,
         context: {
             type: AssetType;
-            kind: "artist-avatar" | "artist-cover" | "album-cover" | "sound";
+            kind:
+                | "artist-avatar"
+                | "artist-cover"
+                | "genre-cover"
+                | "album-cover"
+                | "playlist-cover"
+                | "sound";
         }
     ) => {
         const asset = new Asset<IImageMeta | ISoundMeta>();
@@ -29,6 +35,20 @@ define(
                 asset.meta = {
                     height: 360,
                     width: 850,
+                    source: `https://picsum.photos/seed/${Math.random()}/${850}/${360}`,
+                };
+                break;
+            case "genre-cover":
+                asset.meta = {
+                    height: 360,
+                    width: 850,
+                    source: `https://picsum.photos/seed/${Math.random()}/${500}/${360}`,
+                };
+                break;
+            case "playlist-cover":
+                asset.meta = {
+                    height: 360,
+                    width: 360,
                     source: `https://picsum.photos/seed/${Math.random()}/${850}/${360}`,
                 };
                 break;
