@@ -3,6 +3,8 @@ import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/g
 import { TrackService } from "src/modules/track/track.service";
 import { CurrentUser } from "src/shared/decorators/current-user.decorator";
 import { Pagination } from "src/shared/Pagination";
+import { Asset, IImageMeta } from "../asset/asset.entity";
+import { AssetService } from "../asset/asset.service";
 import { GetTracksArgs } from "../track/args/GetTracks.args";
 import { Track } from "../track/track.entity";
 import { GqlAuthGuard } from "../user/strategies/graphql.guard";
@@ -18,7 +20,8 @@ import { PlaylistService } from "./playlist.service";
 export class PlaylistResolver {
     constructor(
         private readonly playlistService: PlaylistService,
-        private readonly trackService: TrackService
+        private readonly trackService: TrackService,
+        private readonly assetService: AssetService
     ) {}
 
     @Query(() => [Playlist])
@@ -79,5 +82,10 @@ export class PlaylistResolver {
     @ResolveField(() => Number)
     async tracksCount(@Parent() playlist: Playlist): Promise<number> {
         return this.playlistService.getTracksCount(playlist.id);
+    }
+
+    @ResolveField()
+    async coverImage(@Parent() playlist: Playlist): Promise<Asset<IImageMeta>> {
+        return this.assetService.findOneById(playlist.coverImageId);
     }
 }
