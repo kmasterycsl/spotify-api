@@ -17,6 +17,6 @@ import { LikeableService } from "./likeable.service";
         forwardRef(() => PlaylistModule),
     ],
     providers: [LikeableService, LikeableResolver],
-    exports: [LikeableService],
+    exports: [TypeOrmModule, LikeableService],
 })
 export class LikeableModule {}

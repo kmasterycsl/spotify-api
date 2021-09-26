@@ -25,6 +25,8 @@ export class PlaylistService {
         private tracksRepository: Repository<Track>,
         @InjectRepository(PlaylistToTrack)
         private playlistToTrackRepository: Repository<PlaylistToTrack>,
+        @InjectRepository(Likeable)
+        private likeableRepository: Repository<Likeable>,
         @InjectRepository(GenreToPlaylist)
         private genreToPlaylistRepository: Repository<GenreToPlaylist>
     ) {}
@@ -90,7 +92,16 @@ export class PlaylistService {
             throw new ForbiddenException();
         }
 
-        await this.playlistsRepository.delete(playlist.id);
+        await getManager().transaction(async txnEntityManager => {
+            await txnEntityManager.delete(Playlist, playlist.id);
+
+            await txnEntityManager.delete(Likeable, [
+                {
+                    likeableId: playlist.id,
+                    likeableType: LikeableType.PLAYLIST,
+                },
+            ]);
+        });
 
         return playlist;
     }

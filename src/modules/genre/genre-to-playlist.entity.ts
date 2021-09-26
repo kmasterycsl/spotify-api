@@ -10,9 +10,9 @@ export class GenreToPlaylist {
     @Column({ primary: true })
     public playlistId: string;
 
-    @ManyToOne(() => Genre, genre => genre)
+    @ManyToOne(() => Genre, genre => genre, { onDelete: "CASCADE" })
     public genre!: Genre;
 
-    @ManyToOne(() => Playlist, playlist => playlist)
+    @ManyToOne(() => Playlist, playlist => playlist, { onDelete: "CASCADE" })
     public playlist!: Playlist;
 }
