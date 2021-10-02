@@ -4,8 +4,9 @@ import { AssetService } from "src/modules/asset/asset.service";
 import { Pagination } from "src/shared/Pagination";
 import { Playlist } from "../playlist/playlist.entity";
 import { PlaylistService } from "../playlist/playlist.service";
+import { GetGenresArgs } from "./args/GetGenres.arg";
 import { GetPlaylistsArgs } from "./args/GetPlaylists.args";
-import { Genre } from "./genre.entity";
+import { Genre, PaginatedGenre } from "./genre.entity";
 import { GenreService } from "./genre.service";
 
 @Resolver(() => Genre)
@@ -16,9 +17,9 @@ export class GenreResolver {
         private readonly playlistService: PlaylistService
     ) {}
 
-    @Query(() => [Genre], { name: "genres" })
-    async getGenres() {
-        return this.genresService.find();
+    @Query(() => PaginatedGenre, { name: "genres" })
+    async getGenres(@Args() args: GetGenresArgs) {
+        return this.genresService.find(args);
     }
 
     @Query(() => Genre, { name: "genre" })
