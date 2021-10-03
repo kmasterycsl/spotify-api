@@ -5,7 +5,7 @@ import { Pagination } from "src/shared/Pagination";
 import { Playlist } from "../playlist/playlist.entity";
 import { PlaylistService } from "../playlist/playlist.service";
 import { GetGenresArgs } from "./args/GetGenres.arg";
-import { GetPlaylistsArgs } from "./args/GetPlaylists.args";
+import { GetPlaylistsInGenreArgs } from "./args/GetPlaylists.args";
 import { Genre, PaginatedGenre } from "./genre.entity";
 import { GenreService } from "./genre.service";
 
@@ -30,7 +30,7 @@ export class GenreResolver {
     @ResolveField()
     async playlists(
         @Parent() genre: Genre,
-        @Args() args: GetPlaylistsArgs
+        @Args() args: GetPlaylistsInGenreArgs
     ): Promise<Pagination<Playlist>> {
         return this.playlistService.findByGenreId(genre.id, args);
     }

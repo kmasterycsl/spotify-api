@@ -1,13 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { In, Repository } from "typeorm";
 import { paginate } from "nestjs-typeorm-paginate";
-import { GetArtistsArgs } from "./args/GetArtists.arg";
-import { Artist } from "./artist.entity";
-import { ArtistToTrack } from "./artist-to-track.entity";
-import { TrackService } from "../track/track.service";
 import { Pagination } from "src/shared/Pagination";
 import convertToCustomPagination from "src/shared/utils/convertToCustomPagination";
+import { FindManyOptions, In, Like, Repository } from "typeorm";
+import { TrackService } from "../track/track.service";
+import { GetArtistsArgs } from "./args/GetArtists.arg";
+import { ArtistToTrack } from "./artist-to-track.entity";
+import { Artist } from "./artist.entity";
+
 @Injectable()
 export class ArtistService {
     constructor(
@@ -19,10 +20,22 @@ export class ArtistService {
     ) {}
 
     find(args: GetArtistsArgs): Promise<Pagination<Artist>> {
-        return paginate<Artist>(this.artistsRepository, {
-            limit: args.limit,
-            page: args.page,
-        }).then(convertToCustomPagination);
+        const cond: FindManyOptions<Artist> = args.query
+            ? {
+                  where: {
+                      name: Like(`%${args.query}%`),
+                  },
+              }
+            : undefined;
+
+        return paginate<Artist>(
+            this.artistsRepository,
+            {
+                limit: args.limit,
+                page: args.page,
+            },
+            cond
+        ).then(convertToCustomPagination);
     }
 
     findOneById(id: string): Promise<Artist> {

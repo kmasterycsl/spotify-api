@@ -8,8 +8,9 @@ import { Artist } from "../artist/artist.entity";
 import { ArtistService } from "../artist/artist.service";
 import { LikeableType } from "../likeable/likeable.entity";
 import { LikeableService } from "../likeable/likeable.service";
-import { Album } from "./album.entity";
+import { Album, PaginatedAlbum } from "./album.entity";
 import { AlbumService } from "./album.service";
+import { GetAlbumsArgs } from "./args/GetAlbums.args";
 
 @Resolver(() => Album)
 export class AlbumResolver {
@@ -20,6 +21,11 @@ export class AlbumResolver {
         private readonly artistService: ArtistService,
         private readonly likeableService: LikeableService
     ) {}
+
+    @Query(() => PaginatedAlbum, { name: "albums" })
+    async getPlaylists(@Args() args: GetAlbumsArgs) {
+        return this.albumsService.find(args);
+    }
 
     @Query(() => Album, { name: "album" })
     async getAlbumById(@Args("id") id: string): Promise<Album> {
