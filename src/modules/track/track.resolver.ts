@@ -1,6 +1,6 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { Track } from "src/modules/track/track.entity";
+import { PaginatedTrack, Track } from "src/modules/track/track.entity";
 import { TrackService } from "src/modules/track/track.service";
 import { CurrentUser } from "src/shared/decorators/current-user.decorator";
 import { Album } from "../album/album.entity";
@@ -10,6 +10,7 @@ import { ArtistService } from "../artist/artist.service";
 import { LikeableType } from "../likeable/likeable.entity";
 import { LikeableService } from "../likeable/likeable.service";
 import { GqlAuthGuard } from "../user/strategies/graphql.guard";
+import { GetTracksArgs } from "./args/GetTracks.args";
 
 @Resolver(() => Track)
 export class TrackResolver {
@@ -19,6 +20,11 @@ export class TrackResolver {
         private readonly artistService: ArtistService,
         private readonly likeableService: LikeableService
     ) {}
+
+    @Query(() => PaginatedTrack, { name: "tracks" })
+    async getTracks(@Args() args: GetTracksArgs) {
+        return this.trackService.find(args);
+    }
 
     @Query(() => Track, { name: "track" })
     async getTrackById(@Args("id") id: string): Promise<Track> {

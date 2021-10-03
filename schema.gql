@@ -50,6 +50,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type PaginatedAlbum {
+  items: [Album!]!
+  pageInfo: PaginationMeta!
+}
+
 type Track {
   id: ID!
   name: String!
@@ -74,7 +79,7 @@ type Artist {
   coverImage: Asset!
   avatarImageId: String!
   avatarImage: Asset!
-  tracks(page: Int = 0, limit: Int = 10): PaginatedTrack!
+  tracks(page: Int = 0, limit: Int = 10, query: String!): PaginatedTrack!
   isLiked: Boolean!
 }
 
@@ -104,7 +109,7 @@ type Playlist {
   createdAt: DateTime!
   updatedAt: DateTime!
   tracksCount: Float!
-  tracks(page: Int = 0, limit: Int = 10): PaginatedTrack!
+  tracks(page: Int = 0, limit: Int = 10, query: String!): PaginatedTrack!
 }
 
 type PaginatedPlaylist {
@@ -143,11 +148,14 @@ type PaginatedGenre {
 }
 
 type Query {
-  artists(page: Int = 0, limit: Int = 10): PaginatedArtist!
+  artists(page: Int = 0, limit: Int = 10, query: String!): PaginatedArtist!
   artist(id: String!): Artist!
+  tracks(page: Int = 0, limit: Int = 10, query: String!): PaginatedTrack!
   track(id: String!): Track!
   likeables(page: Int = 0, limit: Int = 10): PaginatedLikeable!
+  albums(page: Int = 0, limit: Int = 10, query: String!): PaginatedAlbum!
   album(id: String!): Album!
+  playlists(page: Int = 0, limit: Int = 10, query: String!): PaginatedPlaylist!
   getOwnPlaylists: [Playlist!]!
   playlist(id: String!): Playlist
   genres(page: Int = 0, limit: Int = 10): PaginatedGenre!

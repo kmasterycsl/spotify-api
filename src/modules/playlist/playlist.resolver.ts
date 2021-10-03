@@ -12,8 +12,9 @@ import { User } from "../user/user.entity";
 import { AddTrackToPlaylist } from "./args/AddTrackToPlaylist.arg";
 import { CreatePlaylistArgs } from "./args/CreatePlaylist.arg";
 import { DeletePlaylistArgs } from "./args/DeletePlaylist.arg";
+import { GetPlaylistsArgs } from "./args/GetPlaylistsArgs.arg";
 import { UpdatePlaylistArgs } from "./args/UpdatePlaylist.arg";
-import { Playlist } from "./playlist.entity";
+import { PaginatedPlaylist, Playlist } from "./playlist.entity";
 import { PlaylistService } from "./playlist.service";
 
 @Resolver(() => Playlist)
@@ -23,6 +24,11 @@ export class PlaylistResolver {
         private readonly trackService: TrackService,
         private readonly assetService: AssetService
     ) {}
+
+    @Query(() => PaginatedPlaylist, { name: "playlists" })
+    async getPlaylists(@Args() args: GetPlaylistsArgs) {
+        return this.playlistService.find(args);
+    }
 
     @Query(() => [Playlist])
     @UseGuards(GqlAuthGuard)

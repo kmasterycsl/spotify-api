@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
 import { Track } from "src/modules/track/track.entity";
+import { Paginated } from "src/shared/Paginated";
 import {
     Column,
     CreateDateColumn,
@@ -72,3 +73,6 @@ export class Album {
     @Field()
     updatedAt: Date;
 }
+
+@ObjectType()
+export class PaginatedAlbum extends Paginated(Album) {}

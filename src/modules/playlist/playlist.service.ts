@@ -3,8 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ForbiddenError } from "apollo-server-errors";
 import { paginate } from "nestjs-typeorm-paginate";
 import { Pagination } from "src/shared/Pagination";
-import { getManager, Repository } from "typeorm";
-import { GetPlaylistsArgs } from "../genre/args/GetPlaylists.args";
+import convertToCustomPagination from "src/shared/utils/convertToCustomPagination";
+import { FindManyOptions, getManager, Like, Repository } from "typeorm";
+import { GetPlaylistsInGenreArgs } from "../genre/args/GetPlaylists.args";
 import { GenreToPlaylist } from "../genre/genre-to-playlist.entity";
 import { Likeable, LikeableType } from "../likeable/likeable.entity";
 import { Track } from "../track/track.entity";
@@ -12,6 +13,7 @@ import { User } from "../user/user.entity";
 import { AddTrackToPlaylist } from "./args/AddTrackToPlaylist.arg";
 import { CreatePlaylistArgs } from "./args/CreatePlaylist.arg";
 import { DeletePlaylistArgs } from "./args/DeletePlaylist.arg";
+import { GetPlaylistsArgs } from "./args/GetPlaylistsArgs.arg";
 import { UpdatePlaylistArgs } from "./args/UpdatePlaylist.arg";
 import { PlaylistToTrack } from "./playlist-to-track.entity";
 import { Playlist } from "./playlist.entity";
@@ -30,6 +32,25 @@ export class PlaylistService {
         @InjectRepository(GenreToPlaylist)
         private genreToPlaylistRepository: Repository<GenreToPlaylist>
     ) {}
+
+    find(args: GetPlaylistsArgs): Promise<Pagination<Playlist>> {
+        const cond: FindManyOptions<Playlist> = args.query
+            ? {
+                  where: {
+                      name: Like(`%${args.query}%`),
+                  },
+              }
+            : undefined;
+
+        return paginate<Playlist>(
+            this.playlistsRepository,
+            {
+                limit: args.limit,
+                page: args.page,
+            },
+            cond
+        ).then(convertToCustomPagination);
+    }
 
     async findByUserId(userId: string): Promise<Playlist[]> {
         const playlists = await this.playlistsRepository.find({
@@ -145,7 +166,10 @@ export class PlaylistService {
         return playlist;
     }
 
-    async findByGenreId(genreId: string, args: GetPlaylistsArgs): Promise<Pagination<Playlist>> {
+    async findByGenreId(
+        genreId: string,
+        args: GetPlaylistsInGenreArgs
+    ): Promise<Pagination<Playlist>> {
         const genreToPlaylists = await paginate(this.genreToPlaylistRepository, args, {
             where: { genreId },
         });
