@@ -170,7 +170,7 @@ type Mutation {
   updatePlaylist(id: String!, name: String!): Playlist!
   deletePlaylist(id: String!): Playlist!
   addTrackToPlaylist(playlistId: String!, trackId: String!): Playlist!
-  loginBySocialProvider(idToken: String!, providerId: String!): UserWithAccessToken!
+  loginBySocialProvider(idToken: String, accessToken: String, providerId: String!): UserWithAccessToken!
 }
 
 enum LikeableType {

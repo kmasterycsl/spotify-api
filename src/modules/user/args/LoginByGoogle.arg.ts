@@ -1,11 +1,12 @@
-import { ArgsType, Field, Int } from "@nestjs/graphql";
-import { IsEntityExist } from "src/shared/decorators/is-entity-exist.decorator";
-import { SocialProvider } from "../social-provider.entity";
+import { ArgsType, Field } from "@nestjs/graphql";
 
 @ArgsType()
 export class LoginByGoogleArgs {
-    @Field(type => String)
+    @Field(type => String, { nullable: true })
     idToken: string;
+
+    @Field(type => String, { nullable: true })
+    accessToken: string;
 
     @Field(type => String)
     // @IsEntityExist(SocialProvider)
