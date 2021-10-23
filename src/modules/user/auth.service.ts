@@ -10,7 +10,18 @@ export class AuthService {
     constructor(private usersService: UserService, private jwtService: JwtService) {}
 
     async loginBySocialProvider(params: LoginByGoogleArgs): Promise<UserWithAccessToken> {
-        const socialInfo = await this.verifyIdToken(params);
+        let socialInfo;
+        if (params.idToken) {
+            socialInfo = await this.verifyIdToken(params);
+        } else if (params.accessToken) {
+            socialInfo = await this.verifyAccessToken(params);
+        } else {
+            throw new BadRequestException({
+                statusCode: 400,
+                message: ["Missing idToken or accessToken"],
+                error: "Bad Request",
+            });
+        }
 
         let existedUser = await this.usersService.findUserBySocialInfo(
             params.providerId,
@@ -49,6 +60,38 @@ export class AuthService {
                     return {
                         name: payload.name,
                         uid: payload.sub,
+                    };
+                } catch (e) {
+                    console.error(e);
+                    throw new BadRequestException({
+                        statusCode: 400,
+                        message: ["idToken is not valid"],
+                        error: "Bad Request",
+                    });
+                }
+            case SUPPORTED_SOCIAL_PROVIDERS.FACEBOOK:
+                return {
+                    name: null,
+                    uid: null,
+                };
+            default:
+                throw new InternalServerErrorException("Missing provider handler");
+        }
+    }
+
+    private async verifyAccessToken(params: LoginByGoogleArgs) {
+        switch (params.providerId) {
+            case SUPPORTED_SOCIAL_PROVIDERS.GOOGLE:
+                const googleClient = new OAuth2Client(
+                    process.env.GOOGLE_CLIENT_ID,
+                    process.env.GOOGLE_CLIENT_SECRET
+                );
+                try {
+                    const result = await googleClient.getTokenInfo(params.accessToken);
+
+                    return {
+                        name: "",
+                        uid: result.sub,
                     };
                 } catch (e) {
                     console.error(e);
