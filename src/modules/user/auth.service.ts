@@ -45,14 +45,15 @@ export class AuthService {
     private async verifyIdToken(params: LoginByGoogleArgs) {
         switch (params.providerId) {
             case SUPPORTED_SOCIAL_PROVIDERS.GOOGLE:
-                const googleClient = new OAuth2Client(
-                    process.env.GOOGLE_CLIENT_ID,
-                    process.env.GOOGLE_CLIENT_SECRET
-                );
+                const googleClient = new OAuth2Client();
+
                 try {
                     const result = await googleClient.verifyIdToken({
                         idToken: params.idToken,
-                        audience: process.env.GOOGLE_CLIENT_ID,
+                        audience: [
+                            process.env.GOOGLE_ANDROID_CLIENT_ID,
+                            process.env.GOOGLE_IOS_CLIENT_ID,
+                        ],
                     });
 
                     const payload = result.getPayload();
@@ -79,6 +80,7 @@ export class AuthService {
         }
     }
 
+    // @TODO: check this func
     private async verifyAccessToken(params: LoginByGoogleArgs) {
         switch (params.providerId) {
             case SUPPORTED_SOCIAL_PROVIDERS.GOOGLE:
