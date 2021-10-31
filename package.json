@@ -23,7 +23,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "pretty": "npx prettier --write \"./**/*.{js,jsx,ts,tsx}\""
+    "pretty": "npx prettier --write \"./**/*.{js,jsx,ts,tsx}\"",
+    "populate-dominate-color": "node dist/commands/populate-dominant-color-image.js"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
