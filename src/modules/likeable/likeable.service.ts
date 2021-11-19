@@ -9,6 +9,7 @@ import { AlbumService } from "../album/album.service";
 import { ArtistService } from "../artist/artist.service";
 import { TrackService } from "../track/track.service";
 import { User } from "../user/user.entity";
+import { GetLikeablesArg } from "./args/GetLikeables.arg";
 import { LikeArgs } from "./args/Like.arg";
 import { Likeable, LikeableType } from "./likeable.entity";
 
@@ -22,9 +23,9 @@ export class LikeableService {
         private artistsService: ArtistService
     ) {}
 
-    async findByUserId(userId: string, args: PaginationArgs): Promise<Pagination<Likeable>> {
+    async findByUserId(userId: string, args: GetLikeablesArg): Promise<Pagination<Likeable>> {
         const likeables = await paginate(this.likeablesRepository, args, {
-            where: { userId },
+            where: { userId, likeableType: args.likeableType },
             order: {
                 createdAt: "DESC",
             },
