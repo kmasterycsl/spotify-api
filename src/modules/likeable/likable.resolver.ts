@@ -12,6 +12,7 @@ import { Track } from "../track/track.entity";
 import { TrackService } from "../track/track.service";
 import { GqlAuthGuard } from "../user/strategies/graphql.guard";
 import { User } from "../user/user.entity";
+import { GetLikeablesArg } from "./args/GetLikeables.arg";
 import { LikeArgs } from "./args/Like.arg";
 import { Likeable, LikeableType, PaginatedLikeable } from "./likeable.entity";
 import { LikeableService } from "./likeable.service";
@@ -28,7 +29,7 @@ export class LikeableResolver {
 
     @Query(() => PaginatedLikeable, { name: "likeables" })
     @UseGuards(GqlAuthGuard)
-    async getLikeables(@Args() args: PaginationArgs, @CurrentUser() user: User) {
+    async getLikeables(@Args() args: GetLikeablesArg, @CurrentUser() user: User) {
         return this.likeableService.findByUserId(user.id, args);
     }
 

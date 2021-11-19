@@ -152,7 +152,7 @@ type Query {
   artist(id: String!): Artist!
   tracks(page: Int = 0, limit: Int = 10, query: String): PaginatedTrack!
   track(id: String!): Track!
-  likeables(page: Int = 0, limit: Int = 10): PaginatedLikeable!
+  likeables(page: Int = 0, limit: Int = 10, likeableType: LikeableType): PaginatedLikeable!
   albums(page: Int = 0, limit: Int = 10, query: String): PaginatedAlbum!
   album(id: String!): Album!
   playlists(page: Int = 0, limit: Int = 10, query: String): PaginatedPlaylist!
@@ -164,6 +164,13 @@ type Query {
   user(id: String!): User!
 }
 
+enum LikeableType {
+  TRACK
+  ALBUM
+  ARTIST
+  PLAYLIST
+}
+
 type Mutation {
   like(likeableType: LikeableType!, likeableId: String!): Boolean!
   createPlaylist(name: String!): Playlist!
@@ -171,11 +178,4 @@ type Mutation {
   deletePlaylist(id: String!): Playlist!
   addTrackToPlaylist(playlistId: String!, trackId: String!): Playlist!
   loginBySocialProvider(idToken: String, accessToken: String, providerId: String!): UserWithAccessToken!
-}
-
-enum LikeableType {
-  TRACK
-  ALBUM
-  ARTIST
-  PLAYLIST
 }
