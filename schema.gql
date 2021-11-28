@@ -110,10 +110,24 @@ type Playlist {
   updatedAt: DateTime!
   tracksCount: Float!
   tracks(page: Int = 0, limit: Int = 10, query: String): PaginatedTrack!
+  isLiked: Boolean!
 }
 
 type PaginatedPlaylist {
   items: [Playlist!]!
+  pageInfo: PaginationMeta!
+}
+
+type Genre {
+  id: ID!
+  name: String!
+  coverImageId: String!
+  coverImage: Asset!
+  playlists(page: Int = 0, limit: Int = 10): PaginatedPlaylist!
+}
+
+type PaginatedGenre {
+  items: [Genre!]!
   pageInfo: PaginationMeta!
 }
 
@@ -131,19 +145,6 @@ type Likeable {
 
 type PaginatedLikeable {
   items: [Likeable!]!
-  pageInfo: PaginationMeta!
-}
-
-type Genre {
-  id: ID!
-  name: String!
-  coverImageId: String!
-  coverImage: Asset!
-  playlists(page: Int = 0, limit: Int = 10): PaginatedPlaylist!
-}
-
-type PaginatedGenre {
-  items: [Genre!]!
   pageInfo: PaginationMeta!
 }
 

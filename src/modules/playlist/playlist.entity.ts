@@ -59,6 +59,9 @@ export class Playlist {
 
     @Field(type => PaginatedTrack)
     tracks: PaginatedTrack;
+
+    @Field(type => Boolean)
+    isLiked: boolean;
 }
 
 @ObjectType()
