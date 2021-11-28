@@ -7,6 +7,7 @@ import convertToCustomPagination from "src/shared/utils/convertToCustomPaginatio
 import { Repository } from "typeorm";
 import { AlbumService } from "../album/album.service";
 import { ArtistService } from "../artist/artist.service";
+import { PlaylistService } from "../playlist/playlist.service";
 import { TrackService } from "../track/track.service";
 import { User } from "../user/user.entity";
 import { GetLikeablesArg } from "./args/GetLikeables.arg";
@@ -18,6 +19,7 @@ export class LikeableService {
     constructor(
         @InjectRepository(Likeable)
         private likeablesRepository: Repository<Likeable>,
+        private playlistService: PlaylistService,
         private tracksService: TrackService,
         private albumsService: AlbumService,
         private artistsService: ArtistService
@@ -37,6 +39,9 @@ export class LikeableService {
         let target;
 
         switch (arg.likeableType) {
+            case LikeableType.PLAYLIST:
+                target = await this.playlistService.findOneById(arg.likeableId);
+                break;
             case LikeableType.TRACK:
                 target = await this.tracksService.findOneById(arg.likeableId);
                 break;

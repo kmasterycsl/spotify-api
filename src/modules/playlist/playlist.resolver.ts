@@ -5,6 +5,8 @@ import { CurrentUser } from "src/shared/decorators/current-user.decorator";
 import { Pagination } from "src/shared/Pagination";
 import { Asset, IImageMeta } from "../asset/asset.entity";
 import { AssetService } from "../asset/asset.service";
+import { LikeableType } from "../likeable/likeable.entity";
+import { LikeableService } from "../likeable/likeable.service";
 import { GetTracksArgs } from "../track/args/GetTracks.args";
 import { Track } from "../track/track.entity";
 import { GqlAuthGuard } from "../user/strategies/graphql.guard";
@@ -22,7 +24,8 @@ export class PlaylistResolver {
     constructor(
         private readonly playlistService: PlaylistService,
         private readonly trackService: TrackService,
-        private readonly assetService: AssetService
+        private readonly assetService: AssetService,
+        private readonly likeableService: LikeableService
     ) {}
 
     @Query(() => PaginatedPlaylist, { name: "playlists" })
@@ -93,5 +96,16 @@ export class PlaylistResolver {
     @ResolveField()
     async coverImage(@Parent() playlist: Playlist): Promise<Asset<IImageMeta>> {
         return this.assetService.findOneById(playlist.coverImageId);
+    }
+
+    @ResolveField(() => Boolean)
+    async isLiked(@Parent() playlist: Playlist, @CurrentUser() user?): Promise<boolean> {
+        return user
+            ? !!(await this.likeableService.findOneLikable(
+                  LikeableType.PLAYLIST,
+                  playlist.id,
+                  user.id
+              ))
+            : false;
     }
 }
